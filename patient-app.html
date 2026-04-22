@@ -2032,6 +2032,259 @@ body {
 #switcher-menu a i { width: 16px; color: #5CB85C; font-size: 12px; flex-shrink: 0; }
 #switcher-menu .sw-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 6px; }
 
+/* ── Insurance / HSA badge row ── */
+.ins-row {
+  display: flex; gap: 8px; padding: 10px 20px 0; flex-wrap: wrap;
+}
+.ins-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--green-50); border: 1px solid var(--green-light);
+  color: var(--green-dark); font-size: 12px; font-weight: 600;
+  padding: 5px 11px; border-radius: 20px;
+}
+.ins-badge i { font-size: 10px; }
+
+/* ── Payment Activity chart on home ── */
+.pa-card {
+  margin: 16px 20px 0; background: var(--surface);
+  border-radius: var(--r-lg); padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+.pa-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.pa-title { font-size: 14px; font-weight: 700; color: var(--ink); }
+.pa-pct   { font-size: 22px; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
+.pa-bars  { display: flex; align-items: flex-end; gap: 7px; height: 60px; }
+.pa-col   { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.pa-bar   { width: 100%; border-radius: 4px 4px 0 0; }
+.pa-bar.hi { background: var(--green); }
+.pa-bar.md { background: #86EFAC; }
+.pa-bar.lo { background: var(--ink-6); }
+.pa-lbl   { font-size: 9px; font-weight: 600; color: var(--ink-4); }
+.pa-legend { display: flex; gap: 14px; margin-top: 10px; }
+.pa-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-3); font-weight: 600; }
+.pa-leg-dot  { width: 9px; height: 9px; border-radius: 3px; }
+
+/* ── Floating FAB ── */
+.nav-fab {
+  position: absolute; bottom: 52px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(145deg, var(--green), var(--green-dark));
+  border: 3.5px solid var(--canvas);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #fff;
+  box-shadow: 0 8px 24px rgba(92,184,92,0.45);
+  cursor: pointer; z-index: 101;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s var(--ease-spring), box-shadow 0.15s;
+  border: none;
+  border-top: 3.5px solid var(--canvas);
+  border-left: 3.5px solid var(--canvas);
+  border-right: 3.5px solid var(--canvas);
+  border-bottom: 3.5px solid var(--canvas);
+}
+.nav-fab:active { transform: translateX(-50%) scale(0.88); box-shadow: 0 4px 12px rgba(92,184,92,0.4); }
+
+/* Device-level persistent nav */
+#main-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+#main-fab { z-index: 101; }
+
+/* ── Pay screen tabs ── */
+.pay-tabs {
+  display: flex;
+  gap: 0;
+  margin: 16px 20px 8px;
+  background: var(--canvas);
+  border-radius: 12px;
+  padding: 0;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.pay-tab {
+  flex: 1;
+  padding: 11px 0;
+  border: none;
+  background: none;
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.01em;
+}
+.pay-tab:first-child { border-right: 1.5px solid var(--border); }
+.pay-tab.active {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+.pay-section { display: none; }
+.pay-section.active { display: block; }
+
+/* ── My Bills list screen ── */
+.bfilter-row {
+  display: flex; gap: 8px; padding: 14px 20px 0; overflow-x: auto; scrollbar-width: none;
+}
+.bfilter-row::-webkit-scrollbar { display: none; }
+.bfc {
+  display: inline-flex; align-items: center; padding: 7px 15px; border-radius: 20px;
+  font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer;
+  border: 1.5px solid transparent; flex-shrink: 0; transition: all 0.15s;
+}
+.bfc.on  { background: var(--green); color: #fff; }
+.bfc:not(.on) { background: var(--surface); color: var(--ink-3); border-color: var(--ink-6); }
+
+.bl-ring-card {
+  margin: 16px 20px 0; background: var(--surface);
+  border-radius: var(--r-lg); padding: 18px;
+  box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 16px;
+}
+.bl-ring-legend { flex: 1; }
+.bl-stat { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+.bl-stat:last-child { margin-bottom: 0; }
+.bl-dot  { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.bl-lbl  { font-size: 12px; color: var(--ink-3); font-weight: 500; flex: 1; }
+.bl-val  { font-size: 12px; font-weight: 800; color: var(--ink); }
+
+.bli {
+  margin: 0 20px 8px; background: var(--surface);
+  border-radius: var(--r-lg); padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: all 0.15s; box-shadow: var(--shadow-xs);
+}
+.bli:active { transform: scale(0.98); }
+.bli-ico {
+  width: 44px; height: 44px; border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0; position: relative;
+}
+.bli-badge {
+  position: absolute; top: -4px; right: -4px;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 800; color: #fff;
+}
+.bli-info  { flex: 1; min-width: 0; }
+.bli-name  { font-size: 14px; font-weight: 650; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bli-date  { font-size: 12px; color: var(--ink-4); margin-top: 2px; }
+.bli-prog  { height: 4px; background: var(--ink-6); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.bli-prog-fill { height: 100%; border-radius: 2px; background: var(--green); }
+.bli-right { text-align: right; flex-shrink: 0; }
+.bli-amt   { font-size: 15px; font-weight: 800; color: var(--ink); }
+.bli-chip  {
+  display: inline-flex; align-items: center;
+  padding: 2px 7px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; margin-top: 3px;
+}
+
+/* ── Confetti layer for confirmation ── */
+.conf-layer {
+  position: absolute; top: 0; left: 0; right: 0; height: 55%;
+  pointer-events: none; overflow: hidden; z-index: 10;
+}
+/* ── Insurance Tracker ── */
+.ins-verified {
+  display: flex; align-items: center; gap: 7px;
+  margin: 14px 20px 0;
+  font-size: 13px; color: var(--ink-2);
+}
+.ins-tracker-card {
+  margin: 12px 20px 0;
+  background: var(--surface);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.ins-brand-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 4px;
+}
+.ins-brand-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: #E8F0FE;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.ins-brand-name { font-size: 15px; font-weight: 800; color: #1a3c8f; }
+.ins-gauge-wrap { display: flex; justify-content: center; margin: 4px 0 6px; }
+.ins-tracker-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.ins-expl-title { font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.4; margin-bottom: 8px; }
+.ins-expl-desc  { font-size: 12px; color: var(--ink-3); line-height: 1.65; }
+.ins-expl-link  { font-size: 12px; color: var(--green); font-weight: 600; margin-top: 8px; display: block; }
+.ins-ded-row {
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.ins-ded-icon { flex-shrink: 0; margin-top: 2px; font-size: 22px; }
+.ins-ded-title { font-size: 13px; font-weight: 800; color: var(--ink); line-height: 1.4; margin-bottom: 5px; }
+.ins-ded-desc  { font-size: 12px; color: var(--ink-3); line-height: 1.6; }
+.ins-detail-group {
+  margin: 8px 20px 0;
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.ins-detail-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.ins-detail-row:last-child { border-bottom: none; }
+.ins-detail-row span:first-child { color: var(--ink-3); font-weight: 500; }
+.ins-detail-row span:last-child  { color: var(--ink); font-weight: 600; }
+
+.conf-piece {
+  position: absolute; border-radius: 2px;
+  animation: confettiDrop 2s ease-out forwards;
+}
+
+/* ── Custom plan amount slider ── */
+.plan-slider-wrap { margin-top: 14px; }
+.plan-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #E5E7EB;
+  outline: none;
+  cursor: pointer;
+  display: block;
+}
+.plan-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(92,184,92,0.45);
+}
+.plan-slider::-moz-range-thumb {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(92,184,92,0.45);
+}
+.plan-slider-labels {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--ink-4); margin-top: 6px;
+}
+
 </style>
 </head>
 <body>
@@ -2161,77 +2414,102 @@ body {
   <div class="screen" id="home">
     <div class="status-spacer"></div>
 
-    <div class="home-header">
-      <div class="home-greeting-row">
-        <div>
-          <div class="home-hello">Good morning</div>
-          <div class="home-name">Sarah Mitchell</div>
-        </div>
-        <div class="home-avatar" onclick="go('profile')">👤</div>
-      </div>
-    </div>
+    <div class="scroll home-scroll" style="padding-bottom:90px;">
 
-    <!-- Balance Hero -->
-    <div class="balance-hero">
-      <div class="balance-label">Outstanding Balance</div>
-      <div class="balance-amount" id="balance-display">$496.00</div>
-
-      <div class="balance-progress">
-        <div class="balance-progress-track">
-          <div class="balance-progress-fill"></div>
-        </div>
-        <div class="balance-progress-label">
-          <span><strong>35%</strong> resolved</span>
-          <span>Journey to $0</span>
+      <div class="home-header">
+        <div class="home-greeting-row">
+          <div>
+            <div class="home-hello">Good morning</div>
+            <div class="home-name">Angela Nurhayati</div>
+          </div>
+          <div class="home-avatar" onclick="go('profile')" style="font-size:15px;font-weight:800;letter-spacing:-0.5px;">AN</div>
         </div>
       </div>
+      <div class="ins-row">
+        <span class="ins-badge" onclick="go('insurance')" style="cursor:pointer;"><i class="fa-solid fa-shield-halved"></i> Blue Cross PPO <i class="fa-solid fa-chevron-right" style="font-size:8px;opacity:0.6;margin-left:2px;"></i></span>
+        <span class="ins-badge"><i class="fa-solid fa-leaf"></i> FSA $287</span>
+      </div>
 
-      <div class="balance-split">
-        <div class="balance-chip">
-          <div class="balance-chip-dot medical"></div>
-          Medical $156
+      <!-- Balance Hero -->
+      <div class="balance-hero">
+        <div class="balance-label">Outstanding Balance</div>
+        <div class="balance-amount" id="balance-display">$496.00</div>
+
+        <div class="balance-progress">
+          <div class="balance-progress-track">
+            <div class="balance-progress-fill"></div>
+          </div>
+          <div class="balance-progress-label">
+            <span><strong>35%</strong> resolved</span>
+            <span>Journey to $0</span>
+          </div>
         </div>
-        <div class="balance-chip">
-          <div class="balance-chip-dot cosmetic"></div>
-          Cosmetic $340
+
+        <div class="balance-split">
+          <div class="balance-chip">
+            <div class="balance-chip-dot medical"></div>
+            Medical $156
+          </div>
+          <div class="balance-chip">
+            <div class="balance-chip-dot cosmetic"></div>
+            Cosmetic $340
+          </div>
+        </div>
+
+        <div class="balance-actions">
+          <button class="balance-btn balance-btn-primary" onclick="go('payment')">Pay Now →</button>
+          <button class="balance-btn balance-btn-ghost" onclick="go('plans')">Set Up Plan</button>
         </div>
       </div>
 
-      <div class="balance-actions">
-        <button class="balance-btn balance-btn-primary" onclick="go('payment')">Pay Now →</button>
-        <button class="balance-btn balance-btn-ghost" onclick="go('plans')">Set Up Plan</button>
-      </div>
-    </div>
-
-    <div class="scroll home-scroll">
       <div class="stagger">
 
         <!-- Quick Actions -->
         <div class="quick-grid">
           <div class="quick-item" onclick="go('hsa')">
-            <div class="quick-icon gi">💳</div>
+            <div class="quick-icon gi"><i class="fa-solid fa-leaf" style="color:var(--green-dark)"></i></div>
             <div class="quick-text">HSA/FSA</div>
           </div>
           <div class="quick-item" onclick="go('plans')">
-            <div class="quick-icon ti">📅</div>
+            <div class="quick-icon ti"><i class="fa-solid fa-calendar-days" style="color:var(--teal-dark)"></i></div>
             <div class="quick-text">Pay Plan</div>
           </div>
           <div class="quick-item" onclick="go('estimate')">
-            <div class="quick-icon ai">📋</div>
+            <div class="quick-icon ai"><i class="fa-solid fa-clipboard-list" style="color:var(--amber)"></i></div>
             <div class="quick-text">Estimate</div>
           </div>
           <div class="quick-item" onclick="go('assist')">
-            <div class="quick-icon ni">🤝</div>
+            <div class="quick-icon ni"><i class="fa-solid fa-life-ring" style="color:var(--ink-3)"></i></div>
             <div class="quick-text">Help</div>
           </div>
         </div>
 
         <!-- AI Insight -->
         <div class="insight" onclick="go('hsa')">
-          <div class="insight-icon">✦</div>
+          <div class="insight-icon"><i class="fa-solid fa-sparkles" style="font-size:11px;color:#92400E"></i></div>
           <div class="insight-text">
             <strong>Your $96 biopsy is HSA-eligible.</strong>
             You have $287 remaining in your FSA. Apply it now →
+          </div>
+        </div>
+
+        <!-- Payment Activity Chart -->
+        <div class="pa-card">
+          <div class="pa-head">
+            <span class="pa-title">Payment Activity</span>
+            <span class="pa-pct">82%</span>
+          </div>
+          <div class="pa-bars">
+            <div class="pa-col"><div class="pa-bar lo" style="height:36px"></div><span class="pa-lbl">Dec</span></div>
+            <div class="pa-col"><div class="pa-bar hi" style="height:52px"></div><span class="pa-lbl">Jan</span></div>
+            <div class="pa-col"><div class="pa-bar md" style="height:34px"></div><span class="pa-lbl">Feb</span></div>
+            <div class="pa-col"><div class="pa-bar hi" style="height:60px"></div><span class="pa-lbl">Mar</span></div>
+            <div class="pa-col"><div class="pa-bar hi" style="height:48px"></div><span class="pa-lbl">Apr</span></div>
+            <div class="pa-col"><div class="pa-bar lo" style="height:16px;opacity:.4"></div><span class="pa-lbl">May</span></div>
+          </div>
+          <div class="pa-legend">
+            <div class="pa-leg-item"><div class="pa-leg-dot" style="background:var(--green)"></div> Paid</div>
+            <div class="pa-leg-item"><div class="pa-leg-dot" style="background:#86EFAC"></div> HSA Routed</div>
           </div>
         </div>
 
@@ -2239,7 +2517,7 @@ body {
         <div class="section-label">Your Bills</div>
 
         <div class="bill-item" onclick="go('detail')">
-          <div class="bill-icon medical">🏥</div>
+          <div class="bill-icon medical"><i class="fa-solid fa-stethoscope" style="color:var(--green-dark)"></i></div>
           <div class="bill-info">
             <div class="bill-title">Mole Biopsy + Pathology</div>
             <div class="bill-meta">Apr 3 · Dr. Sarah Kim</div>
@@ -2251,7 +2529,7 @@ body {
         </div>
 
         <div class="bill-item" onclick="go('detail')">
-          <div class="bill-icon cosmetic">✨</div>
+          <div class="bill-icon cosmetic"><i class="fa-solid fa-sparkles" style="color:var(--teal-dark)"></i></div>
           <div class="bill-info">
             <div class="bill-title">Botox - 40 Units</div>
             <div class="bill-meta">Apr 3 · Dr. Sarah Kim</div>
@@ -2263,7 +2541,7 @@ body {
         </div>
 
         <div class="bill-item">
-          <div class="bill-icon medical">🏥</div>
+          <div class="bill-icon medical"><i class="fa-solid fa-stethoscope" style="color:var(--green-dark)"></i></div>
           <div class="bill-info">
             <div class="bill-title">Annual Skin Check</div>
             <div class="bill-meta">Feb 12 · Dr. Sarah Kim</div>
@@ -2293,29 +2571,125 @@ body {
       </div>
     </div>
 
-    <!-- Bottom Nav -->
-    <nav class="nav">
-      <button class="nav-item" onclick="go('detail')">
-        <i class="fa-solid fa-file-invoice-dollar nav-icon"></i>
-        <span class="nav-label">Bills</span>
-      </button>
-      <button class="nav-item" onclick="go('ai')">
-        <i class="fa-solid fa-comment-dots nav-icon"></i>
-        <span class="nav-label">AI</span>
-      </button>
-      <button class="nav-item active" onclick="go('home')">
-        <i class="fa-solid fa-house nav-icon"></i>
-        <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-item" onclick="go('assist')">
-        <i class="fa-solid fa-circle-question nav-icon"></i>
-        <span class="nav-label">Help</span>
-      </button>
-      <button class="nav-item" onclick="go('profile')">
-        <i class="fa-solid fa-user nav-icon"></i>
-        <span class="nav-label">Profile</span>
-      </button>
-    </nav>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════════
+       MY BILLS LIST
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="screen" id="bills-list">
+    <div class="status-spacer"></div>
+    <div class="topbar">
+      <button class="topbar-back" onclick="go('home')">←</button>
+      <div class="topbar-title">My Bills</div>
+      <button class="topbar-action">Filter</button>
+    </div>
+
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
+
+      <div class="bfilter-row">
+        <div class="bfc on" onclick="toggleBFilter(this)">All</div>
+        <div class="bfc" onclick="toggleBFilter(this)">Medical</div>
+        <div class="bfc" onclick="toggleBFilter(this)">Cosmetic</div>
+        <div class="bfc" onclick="toggleBFilter(this)">Paid</div>
+        <div class="bfc" onclick="toggleBFilter(this)">HSA Only</div>
+      </div>
+
+      <!-- Ring summary -->
+      <div class="bl-ring-card">
+        <svg viewBox="0 0 100 100" style="width:82px;height:82px;flex-shrink:0;transform:rotate(-90deg)">
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#E5E7EB" stroke-width="12"/>
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#5CB85C" stroke-width="12"
+            stroke-dasharray="238.76" stroke-dashoffset="152"
+            stroke-linecap="round"/>
+          <text x="50" y="46" text-anchor="middle" font-size="16" font-weight="800" fill="#111827" font-family="Roboto" transform="rotate(90 50 50)">37%</text>
+          <text x="50" y="59" text-anchor="middle" font-size="9" fill="#9CA3AF" font-family="Roboto" transform="rotate(90 50 50)">cleared</text>
+        </svg>
+        <div class="bl-ring-legend">
+          <div class="bl-stat">
+            <div class="bl-dot" style="background:var(--green)"></div>
+            <span class="bl-lbl">Paid</span><span class="bl-val">$0</span>
+          </div>
+          <div class="bl-stat">
+            <div class="bl-dot" style="background:var(--amber)"></div>
+            <span class="bl-lbl">Pending</span><span class="bl-val">$340</span>
+          </div>
+          <div class="bl-stat">
+            <div class="bl-dot" style="background:var(--red)"></div>
+            <span class="bl-lbl">Overdue</span><span class="bl-val">$156</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label" style="padding-top:20px;">3 Active Bills</div>
+
+      <div class="bli" onclick="go('detail')">
+        <div class="bli-ico" style="background:var(--red-light)">
+          <i class="fa-solid fa-stethoscope" style="color:var(--red)"></i>
+          <div class="bli-badge" style="background:var(--red)">!</div>
+        </div>
+        <div class="bli-info">
+          <div class="bli-name">Mole Biopsy + Pathology</div>
+          <div class="bli-date">Apr 3 · Dr. Sarah Kim · Medical</div>
+        </div>
+        <div class="bli-right">
+          <div class="bli-amt">$156</div>
+          <div class="bli-chip" style="background:var(--red-light);color:var(--red)">Overdue</div>
+        </div>
+      </div>
+
+      <div class="bli" onclick="go('detail')">
+        <div class="bli-ico" style="background:var(--teal-light)">
+          <i class="fa-solid fa-sparkles" style="color:var(--teal-dark)"></i>
+        </div>
+        <div class="bli-info">
+          <div class="bli-name">Botox - 40 Units</div>
+          <div class="bli-date">Apr 3 · Dr. Sarah Kim · Cosmetic</div>
+        </div>
+        <div class="bli-right">
+          <div class="bli-amt">$340</div>
+          <div class="bli-chip" style="background:var(--amber-light);color:var(--amber)">Due</div>
+        </div>
+      </div>
+
+      <div class="bli" onclick="go('plans')">
+        <div class="bli-ico" style="background:var(--green-50)">
+          <i class="fa-solid fa-calendar-days" style="color:var(--green)"></i>
+        </div>
+        <div class="bli-info">
+          <div class="bli-name">Follow-up Consultation</div>
+          <div class="bli-date">Apr 22 · Dr. Sarah Kim · Est. $85</div>
+          <div class="bli-prog"><div class="bli-prog-fill" style="width:0%"></div></div>
+        </div>
+        <div class="bli-right">
+          <div class="bli-amt">~$85</div>
+          <div class="bli-chip" style="background:var(--green-50);color:var(--green)">Upcoming</div>
+        </div>
+      </div>
+
+      <div class="section-label">Paid</div>
+
+      <div class="bli" style="opacity:0.55">
+        <div class="bli-ico" style="background:#F3F4F6">
+          <i class="fa-solid fa-check" style="color:var(--ink-4)"></i>
+        </div>
+        <div class="bli-info">
+          <div class="bli-name">Annual Skin Check</div>
+          <div class="bli-date">Paid Feb 12 · $0 after insurance</div>
+        </div>
+        <div class="bli-right">
+          <div class="bli-chip" style="background:var(--green-light);color:var(--green-dark)">Paid ✓</div>
+        </div>
+      </div>
+
+      <div class="insight" style="margin-top:16px;">
+        <div class="insight-icon"><i class="fa-solid fa-sparkles" style="font-size:11px;color:#92400E"></i></div>
+        <div class="insight-text">
+          <strong>$156 is HSA-eligible.</strong> Apply your FSA balance to save on taxes. →
+        </div>
+      </div>
+
+    </div>
   </div>
 
 
@@ -2340,8 +2714,8 @@ body {
         </div>
       </div>
       <div class="detail-chips">
-        <span class="chip chip-green">🏥 Medical $156</span>
-        <span class="chip chip-teal">✨ Cosmetic $340</span>
+        <span class="chip chip-green"><i class="fa-solid fa-stethoscope" style="font-size:10px"></i> Medical $156</span>
+        <span class="chip chip-teal"><i class="fa-solid fa-sparkles" style="font-size:10px"></i> Cosmetic $340</span>
       </div>
     </div>
 
@@ -2440,63 +2814,147 @@ body {
   <div class="screen" id="payment">
     <div class="status-spacer"></div>
     <div class="topbar">
-      <button class="topbar-back" onclick="go('detail')">←</button>
-      <div class="topbar-title">Pay</div>
+      <button class="topbar-back" onclick="go('home')">←</button>
+      <div class="topbar-title">Quick Pay</div>
       <div></div>
     </div>
 
-    <div class="scroll" style="background:var(--canvas)">
-
-      <div class="pay-amount-display">
-        <div class="pay-label">Total Due</div>
-        <div class="pay-number" id="pay-display">$421.60</div>
-      </div>
-
-      <!-- Discount offer -->
-      <div class="discount-offer" id="discount-card" onclick="toggleDiscount()">
-        <div class="discount-top">
-          <span class="discount-badge">⚡ Save 15%</span>
-          <span class="discount-check on" id="discount-check">✓</span>
-        </div>
-        <div class="discount-main">Pay $421.60 today</div>
-        <div class="discount-sub">You save $74.40 vs. full balance</div>
-      </div>
-
-      <div class="section-label">Payment Method</div>
-
-      <div class="method-card selected" onclick="selectMethod(this)">
-        <div class="method-icon visa">VISA</div>
-        <div class="method-info">
-          <div class="method-name">Visa ending in 4242</div>
-          <div class="method-detail">Expires 08/27</div>
-        </div>
-        <div class="method-radio"><div class="method-radio-dot"></div></div>
-      </div>
-
-      <div class="method-card" onclick="selectMethod(this)">
-        <div class="method-icon apple"></div>
-        <div class="method-info">
-          <div class="method-name">Apple Pay</div>
-          <div class="method-detail">Wallet</div>
-        </div>
-        <div class="method-radio"><div class="method-radio-dot"></div></div>
-      </div>
-
-      <div class="method-card" onclick="selectMethod(this)">
-        <div class="method-icon hsa">HSA</div>
-        <div class="method-info">
-          <div class="method-name">HSA Debit ····7891</div>
-          <div class="method-detail">$287.00 available</div>
-        </div>
-        <div class="method-radio"><div class="method-radio-dot"></div></div>
-      </div>
-
-      <div style="height:24px"></div>
+    <!-- Tab switcher -->
+    <div class="pay-tabs">
+      <button class="pay-tab active" id="tab-paynow" onclick="switchPayTab('paynow')">Pay in Full</button>
+      <button class="pay-tab" id="tab-plan" onclick="switchPayTab('plan')">Payment Plan</button>
     </div>
 
-    <div class="pay-footer">
-      <button class="btn btn-primary" id="pay-btn" onclick="go('confirmation')">Pay $421.60</button>
-      <div class="pay-security">🔒 Secured by Stripe · PCI Compliant</div>
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
+
+      <!-- ── PAY IN FULL ── -->
+      <div class="pay-section active" id="section-paynow">
+
+        <div class="pay-amount-display">
+          <div class="pay-label">Total Due</div>
+          <div class="pay-number" id="pay-display">$421.60</div>
+        </div>
+
+        <div class="discount-offer" id="discount-card" onclick="toggleDiscount()">
+          <div class="discount-top">
+            <span class="discount-badge">⚡ Save 15%</span>
+            <span class="discount-check on" id="discount-check">✓</span>
+          </div>
+          <div class="discount-main">Pay $421.60 today</div>
+          <div class="discount-sub">You save $74.40 vs. full balance</div>
+        </div>
+
+        <div class="section-label">Payment Method</div>
+
+        <div class="method-card selected" onclick="selectMethod(this)">
+          <div class="method-icon visa">VISA</div>
+          <div class="method-info">
+            <div class="method-name">Visa ending in 4242</div>
+            <div class="method-detail">Expires 08/27</div>
+          </div>
+          <div class="method-radio"><div class="method-radio-dot"></div></div>
+        </div>
+        <div class="method-card" onclick="selectMethod(this)">
+          <div class="method-icon apple"></div>
+          <div class="method-info">
+            <div class="method-name">Apple Pay</div>
+            <div class="method-detail">Wallet</div>
+          </div>
+          <div class="method-radio"><div class="method-radio-dot"></div></div>
+        </div>
+        <div class="method-card" onclick="selectMethod(this)">
+          <div class="method-icon hsa">HSA</div>
+          <div class="method-info">
+            <div class="method-name">HSA Debit ····7891</div>
+            <div class="method-detail">$287.00 available</div>
+          </div>
+          <div class="method-radio"><div class="method-radio-dot"></div></div>
+        </div>
+
+        <div style="height:16px"></div>
+        <button class="btn btn-primary" id="pay-btn" onclick="go('confirmation')" style="margin:0 20px;width:calc(100% - 40px);">Pay $421.60</button>
+        <div class="pay-security" style="text-align:center;margin:10px 0 4px;">🔒 Secured by Stripe · PCI Compliant</div>
+      </div>
+
+      <!-- ── PAYMENT PLAN ── -->
+      <div class="pay-section" id="section-plan">
+
+        <div class="plan-hero" style="margin-top:8px;">
+          <div class="plan-hero-amount">$496.00</div>
+          <div class="plan-hero-sub">Split into easy monthly payments · 0% interest</div>
+        </div>
+
+        <div class="plan-option" id="qp-plan-3" onclick="selectQPPlan(3)">
+          <div class="plan-top">
+            <div class="plan-months">3 months</div>
+            <div class="plan-monthly">$165.33<span>/mo</span></div>
+          </div>
+          <div class="plan-detail">Total: $496.00 · <strong>0% interest</strong></div>
+        </div>
+
+        <div class="plan-option selected" id="qp-plan-6" onclick="selectQPPlan(6)">
+          <div class="plan-popular">POPULAR</div>
+          <div class="plan-top">
+            <div class="plan-months">6 months</div>
+            <div class="plan-monthly">$82.67<span>/mo</span></div>
+          </div>
+          <div class="plan-detail">Total: $496.00 · <strong>0% interest</strong></div>
+        </div>
+
+        <div class="plan-option" id="qp-plan-12" onclick="selectQPPlan(12)">
+          <div class="plan-top">
+            <div class="plan-months">12 months</div>
+            <div class="plan-monthly">$41.33<span>/mo</span></div>
+          </div>
+          <div class="plan-detail">Total: $496.00 · <strong>0% interest</strong></div>
+        </div>
+
+        <div class="plan-option" id="qp-plan-custom" onclick="selectQPPlan('custom'); updateQPCustom(document.getElementById('qp-custom-input').value);">
+          <div class="plan-top">
+            <div class="plan-months">Custom Amount</div>
+            <div class="plan-monthly" id="qp-custom-display">—<span>/mo</span></div>
+          </div>
+          <div class="plan-slider-wrap">
+            <input class="plan-slider" type="range" min="20" max="496" step="5" value="50" id="qp-custom-input"
+              onclick="event.stopPropagation();"
+              oninput="selectQPPlan('custom'); updateQPCustom(this.value);">
+            <div class="plan-slider-labels"><span>$20 /mo</span><span>$496 /mo</span></div>
+          </div>
+          <div class="plan-detail" id="qp-custom-detail">Drag to set your monthly payment · 0% interest</div>
+        </div>
+
+        <div class="autopay-row">
+          <div class="autopay-info">
+            <div class="autopay-title">Auto-pay</div>
+            <div class="autopay-sub">Visa ····4242 on the 1st</div>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+
+        <div class="section-label">Payment Method</div>
+
+        <div class="method-card selected" onclick="selectMethod(this)">
+          <div class="method-icon visa">VISA</div>
+          <div class="method-info">
+            <div class="method-name">Visa ending in 4242</div>
+            <div class="method-detail">Expires 08/27</div>
+          </div>
+          <div class="method-radio"><div class="method-radio-dot"></div></div>
+        </div>
+        <div class="method-card" onclick="selectMethod(this)">
+          <div class="method-icon apple"></div>
+          <div class="method-info">
+            <div class="method-name">Apple Pay</div>
+            <div class="method-detail">Wallet</div>
+          </div>
+          <div class="method-radio"><div class="method-radio-dot"></div></div>
+        </div>
+
+        <div style="height:16px"></div>
+        <button class="btn btn-primary" id="qp-plan-btn" onclick="go('confirmation')" style="margin:0 20px;width:calc(100% - 40px);">Start Plan – $82.67/mo</button>
+        <div class="pay-security" style="text-align:center;margin:10px 0 4px;">🔒 Secured by Stripe · PCI Compliant</div>
+      </div>
+
     </div>
   </div>
 
@@ -2542,6 +3000,20 @@ body {
           <div class="plan-monthly">$41.33<span>/mo</span></div>
         </div>
         <div class="plan-detail">Total: $496.00 · <strong>0% interest</strong></div>
+      </div>
+
+      <div class="plan-option" id="plan-custom" onclick="selectPlan('custom'); updateCustomPlan(document.getElementById('custom-plan-input').value);">
+        <div class="plan-top">
+          <div class="plan-months">Custom Amount</div>
+          <div class="plan-monthly" id="custom-plan-display">—<span>/mo</span></div>
+        </div>
+        <div class="plan-slider-wrap">
+          <input class="plan-slider" type="range" min="20" max="496" step="5" value="50" id="custom-plan-input"
+            onclick="event.stopPropagation();"
+            oninput="selectPlan('custom'); updateCustomPlan(this.value);">
+          <div class="plan-slider-labels"><span>$20 /mo</span><span>$496 /mo</span></div>
+        </div>
+        <div class="plan-detail" id="custom-plan-detail">Drag to set your monthly payment · 0% interest</div>
       </div>
 
       <div class="autopay-row">
@@ -2650,7 +3122,7 @@ body {
     </div>
 
     <div class="ai-header">
-      <div class="ai-avatar">✦</div>
+      <div class="ai-avatar"><i class="fa-solid fa-sparkles"></i></div>
       <div class="ai-header-info">
         <div class="ai-header-name">PayMyDerm AI</div>
         <div class="ai-header-sub">Derm billing specialist</div>
@@ -2667,7 +3139,7 @@ body {
 
     <div class="chat-area" id="chat-area">
       <div class="msg msg-ai">
-        Hi Sarah! 👋 I can help you understand your dermatology bills, find savings, and navigate your payment options. What would you like to know?
+        Hi Angela! 👋 I can help you understand your dermatology bills, find savings, and navigate your payment options. What would you like to know?
       </div>
       <div class="msg msg-user">Why wasn't my Botox covered by insurance?</div>
       <div class="msg msg-ai">
@@ -2699,7 +3171,7 @@ body {
       <div></div>
     </div>
 
-    <div class="scroll" style="background:var(--canvas); padding-top:16px; padding-bottom:24px;">
+    <div class="scroll" style="background:var(--canvas); padding-top:16px; padding-bottom:90px;">
       <div class="stagger">
 
         <div class="estimate-visit-card">
@@ -2726,7 +3198,7 @@ body {
         </div>
 
         <div class="insight" style="margin-top:16px;">
-          <div class="insight-icon">✦</div>
+          <div class="insight-icon"><i class="fa-solid fa-sparkles" style="font-size:11px;color:#92400E"></i></div>
           <div class="insight-text">
             <strong>This visit is likely HSA-eligible.</strong>
             Based on the procedure code, you may use your FSA balance.
@@ -2756,17 +3228,17 @@ body {
       <div></div>
     </div>
 
-    <div class="scroll" style="background:var(--canvas); padding-bottom:24px;">
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
       <div class="stagger">
 
         <div class="assist-hero">
-          <div class="assist-icon">🤝</div>
+          <div class="assist-icon"><i class="fa-solid fa-hands-holding-heart" style="color:var(--green-dark)"></i></div>
           <div class="assist-title">We're here to help</div>
           <div class="assist-sub">Everyone deserves accessible care. Explore options that may reduce your costs.</div>
         </div>
 
         <div class="assist-card">
-          <div class="assist-card-icon" style="background:var(--green-light);">💰</div>
+          <div class="assist-card-icon" style="background:var(--green-light);"><i class="fa-solid fa-hand-holding-dollar" style="color:var(--green-dark)"></i></div>
           <div class="assist-card-info">
             <div class="assist-card-title">Payment Plans</div>
             <div class="assist-card-desc">Split your balance into 3, 6, or 12 monthly payments at 0% interest.</div>
@@ -2775,28 +3247,19 @@ body {
         </div>
 
         <div class="assist-card">
-          <div class="assist-card-icon" style="background:var(--teal-light);">🏥</div>
-          <div class="assist-card-info">
-            <div class="assist-card-title">Financial Hardship Program</div>
-            <div class="assist-card-desc">Income-based discounts for patients facing financial difficulty.</div>
-          </div>
-          <div class="assist-card-arrow">›</div>
-        </div>
-
-        <div class="assist-card">
-          <div class="assist-card-icon" style="background:var(--amber-light);">💊</div>
-          <div class="assist-card-info">
-            <div class="assist-card-title">Medication Assistance</div>
-            <div class="assist-card-desc">Co-pay cards for biologics - Dupixent, Cosentyx, and more.</div>
-          </div>
-          <div class="assist-card-arrow">›</div>
-        </div>
-
-        <div class="assist-card">
-          <div class="assist-card-icon" style="background:#F3F4F6;">📞</div>
+          <div class="assist-card-icon" style="background:var(--teal-light);"><i class="fa-solid fa-building-columns" style="color:var(--teal-dark)"></i></div>
           <div class="assist-card-info">
             <div class="assist-card-title">Talk to Billing Team</div>
             <div class="assist-card-desc">Speak with a specialist who can walk through your options.</div>
+          </div>
+          <div class="assist-card-arrow">›</div>
+        </div>
+
+        <div class="assist-card">
+          <div class="assist-card-icon" style="background:#F3F4F6;"><i class="fa-solid fa-phone" style="color:var(--ink-3)"></i></div>
+          <div class="assist-card-info">
+            <div class="assist-card-title">Talk to PayMyDerm Support</div>
+            <div class="assist-card-desc">Connect directly with our billing specialists for personalized help.</div>
           </div>
           <div class="assist-card-arrow">›</div>
         </div>
@@ -2811,6 +3274,7 @@ body {
        ══════════════════════════════════════════════════════════════ -->
   <div class="screen" id="confirmation">
     <div class="status-spacer"></div>
+    <div class="conf-layer" id="conf-layer"></div>
 
     <div class="confirm-check">
       <svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg>
@@ -2856,28 +3320,28 @@ body {
       <div></div>
     </div>
 
-    <div class="scroll" style="background:var(--canvas); padding-bottom:24px;">
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
 
       <div class="profile-header">
-        <div class="profile-avatar">👤</div>
-        <div class="profile-name">Sarah Mitchell</div>
-        <div class="profile-email">sarah.mitchell@email.com</div>
+        <div class="profile-avatar" style="font-size:24px;font-weight:800;letter-spacing:-1px;color:var(--green-dark)">AN</div>
+        <div class="profile-name">Angela Nurhayati</div>
+        <div class="profile-email">angela.nurhayati@email.com</div>
       </div>
 
       <div class="section-label">Account</div>
       <div class="profile-group">
         <div class="profile-row">
-          <div class="profile-row-icon">📱</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-mobile-screen" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Phone</div>
           <div class="profile-row-value">(555) 284-1847</div>
         </div>
         <div class="profile-row">
-          <div class="profile-row-icon">✉️</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-envelope" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Email</div>
-          <div class="profile-row-value">sarah.m@email.com</div>
+          <div class="profile-row-value">angela.n@email.com</div>
         </div>
         <div class="profile-row">
-          <div class="profile-row-icon">🏥</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-shield-halved" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Insurance</div>
           <div class="profile-row-value">Blue Cross PPO</div>
           <div class="profile-row-arrow">›</div>
@@ -2887,19 +3351,19 @@ body {
       <div class="section-label">Payment</div>
       <div class="profile-group">
         <div class="profile-row">
-          <div class="profile-row-icon">💳</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-credit-card" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Payment Methods</div>
           <div class="profile-row-value">2 cards</div>
           <div class="profile-row-arrow">›</div>
         </div>
         <div class="profile-row">
-          <div class="profile-row-icon">💰</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-leaf" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">HSA/FSA Accounts</div>
           <div class="profile-row-value">1 linked</div>
           <div class="profile-row-arrow">›</div>
         </div>
         <div class="profile-row">
-          <div class="profile-row-icon">📄</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-file-lines" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Payment History</div>
           <div class="profile-row-arrow">›</div>
         </div>
@@ -2908,12 +3372,12 @@ body {
       <div class="section-label">Preferences</div>
       <div class="profile-group">
         <div class="profile-row">
-          <div class="profile-row-icon">🔔</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-bell" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Notifications</div>
           <div class="profile-row-arrow">›</div>
         </div>
         <div class="profile-row">
-          <div class="profile-row-icon">🌍</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-earth-americas" style="color:var(--ink-3)"></i></div>
           <div class="profile-row-text">Language</div>
           <div class="profile-row-value">English</div>
         </div>
@@ -2921,7 +3385,7 @@ body {
 
       <div class="profile-group" style="margin-top:16px;">
         <div class="profile-row danger">
-          <div class="profile-row-icon">🚪</div>
+          <div class="profile-row-icon"><i class="fa-solid fa-right-from-bracket" style="color:var(--red)"></i></div>
           <div class="profile-row-text">Sign Out</div>
         </div>
       </div>
@@ -2934,6 +3398,133 @@ body {
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════════════════════════════
+       SCREEN 15: INSURANCE TRACKER
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="screen" id="insurance">
+    <div class="status-spacer"></div>
+    <div class="topbar">
+      <button class="topbar-back" onclick="go('home')">←</button>
+      <div class="topbar-title">Insurance Tracker</div>
+      <div></div>
+    </div>
+
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
+
+      <!-- Verified row -->
+      <div class="ins-verified">
+        <i class="fa-solid fa-circle-check" style="color:var(--green)"></i>
+        <span><strong>Verified</strong> by Blue Cross PPO</span>
+      </div>
+
+      <!-- Main card -->
+      <div class="ins-tracker-card">
+
+        <!-- Brand -->
+        <div class="ins-brand-row">
+          <div class="ins-brand-icon">
+            <i class="fa-solid fa-shield-halved" style="color:#1a5ca8"></i>
+          </div>
+          <div class="ins-brand-name">Blue Cross PPO</div>
+        </div>
+
+        <!-- Arc gauge — out-of-pocket max, $1,500 of $5,500 met (27%) -->
+        <div class="ins-gauge-wrap">
+          <svg viewBox="0 0 200 112" style="width:210px;height:112px;">
+            <!-- Gray background track -->
+            <path d="M 20 97 A 80 80 0 0 1 180 97"
+                  fill="none" stroke="#E5E7EB" stroke-width="14" stroke-linecap="round"/>
+            <!-- Green progress (~27% of 180°) endpoint ≈ (48,34) -->
+            <path d="M 20 97 A 80 80 0 0 1 48 34"
+                  fill="none" stroke="#5CB85C" stroke-width="14" stroke-linecap="round"/>
+            <!-- Labels inside arc -->
+            <text x="100" y="66" text-anchor="middle"
+                  font-size="24" font-weight="800" fill="#111827" font-family="Roboto,sans-serif">$1,500</text>
+            <text x="100" y="81" text-anchor="middle"
+                  font-size="10" fill="#6B7280" font-family="Roboto,sans-serif">of $5,500 yearly out-of-pocket</text>
+            <text x="100" y="95" text-anchor="middle"
+                  font-size="10" fill="#6B7280" font-family="Roboto,sans-serif">max met this year</text>
+          </svg>
+        </div>
+
+        <div class="ins-tracker-divider"></div>
+
+        <!-- Explanation -->
+        <div class="ins-expl-title">Insurance pays a portion of the cost until your max is met</div>
+        <div class="ins-expl-desc">Angela has $4,000 remaining until the individual yearly out-of-pocket maximum is met, at which point insurance will pay 100% of eligible services.</div>
+        <span class="ins-expl-link">More about out-of-pocket max →</span>
+
+        <div class="ins-tracker-divider"></div>
+
+        <!-- Deductible -->
+        <div class="ins-ded-row">
+          <div class="ins-ded-icon">
+            <i class="fa-solid fa-circle-check" style="color:var(--green)"></i>
+          </div>
+          <div>
+            <div class="ins-ded-title">$1,500 in-network deductible has been met</div>
+            <div class="ins-ded-desc">Your deductible is met, which means insurance now pays a portion of the total cost and the rest is owed as a coinsurance payment (typically 20%).</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Plan details -->
+      <div class="section-label" style="margin-top:24px;">Plan Details</div>
+      <div class="ins-detail-group">
+        <div class="ins-detail-row">
+          <span>Plan</span>
+          <span>Blue Cross PPO Silver</span>
+        </div>
+        <div class="ins-detail-row">
+          <span>Member ID</span>
+          <span>XYZ-882941</span>
+        </div>
+        <div class="ins-detail-row">
+          <span>Group</span>
+          <span>Employer Group</span>
+        </div>
+        <div class="ins-detail-row">
+          <span>Deductible</span>
+          <span style="color:var(--green)">Met ✓</span>
+        </div>
+        <div class="ins-detail-row">
+          <span>Coinsurance</span>
+          <span>20% after deductible</span>
+        </div>
+        <div class="ins-detail-row">
+          <span>Out-of-Pocket Max</span>
+          <span>$5,500 / year</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Persistent Bottom Nav -->
+  <nav class="nav" id="main-nav">
+    <button class="nav-item" id="nav-home-btn" onclick="go('home')">
+      <i class="fa-solid fa-house nav-icon"></i>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" id="nav-bills-btn" onclick="go('bills-list')">
+      <i class="fa-solid fa-file-invoice-dollar nav-icon"></i>
+      <span class="nav-label">Bills</span>
+    </button>
+    <div style="flex:1"></div>
+    <button class="nav-item" id="nav-ai-btn" onclick="go('ai')">
+      <i class="fa-solid fa-comment-dots nav-icon"></i>
+      <span class="nav-label">AI</span>
+    </button>
+    <button class="nav-item" id="nav-help-btn" onclick="go('assist')">
+      <i class="fa-solid fa-circle-question nav-icon"></i>
+      <span class="nav-label">Help</span>
+    </button>
+  </nav>
+  <button class="nav-fab" id="main-fab" onclick="go('payment')" title="Quick Pay">
+    <i class="fa-solid fa-bolt"></i>
+  </button>
 </div><!-- /device -->
 
 
@@ -2945,7 +3536,7 @@ body {
 const screens = document.querySelectorAll('.screen');
 const statusbar = document.getElementById('statusbar');
 
-const lightScreens = ['splash', 'home'];
+const lightScreens = ['splash', 'home', 'bills-list'];
 
 function go(id) {
   screens.forEach(s => {
@@ -2962,6 +3553,20 @@ function go(id) {
     // Status bar color
     statusbar.className = lightScreens.includes(id) ? 'statusbar light' : 'statusbar dark';
 
+    // Show/hide persistent nav
+    const noNavScreens = ['splash', 'auth', 'otp', 'confirmation'];
+    const mainNav = document.getElementById('main-nav');
+    const mainFab = document.getElementById('main-fab');
+    const showNav = !noNavScreens.includes(id);
+    if (mainNav) mainNav.style.display = showNav ? '' : 'none';
+    if (mainFab) mainFab.style.display = showNav ? '' : 'none';
+
+    // Update nav active state
+    const navMap = { 'home': 'nav-home-btn', 'bills-list': 'nav-bills-btn', 'ai': 'nav-ai-btn', 'assist': 'nav-help-btn' };
+    document.querySelectorAll('#main-nav .nav-item').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById(navMap[id]);
+    if (activeBtn) activeBtn.classList.add('active');
+
     // Scroll to top
     const sc = target.querySelector('.scroll');
     if (sc) sc.scrollTop = 0;
@@ -2969,6 +3574,86 @@ function go(id) {
     // Scroll chat to bottom
     const chat = target.querySelector('.chat-area');
     if (chat) setTimeout(() => chat.scrollTop = chat.scrollHeight, 50);
+
+    // Confetti on payment success
+    if (id === 'confirmation') setTimeout(spawnConfetti, 150);
+  }
+}
+
+function spawnConfetti() {
+  const layer = document.getElementById('conf-layer');
+  if (!layer) return;
+  layer.innerHTML = '';
+  const colors = ['#5CB85C','#86EFAC','#DCFCE7','#FCD34D','#93C5FD','#A78BFA','#FCA5A5'];
+  for (let i = 0; i < 44; i++) {
+    const el = document.createElement('div');
+    el.className = 'conf-piece';
+    const sz = 5 + Math.random() * 7;
+    el.style.cssText = `left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'3px'};animation-delay:${Math.random()*.9}s;animation-duration:${1.4+Math.random()*.8}s;`;
+    layer.appendChild(el);
+  }
+}
+
+function switchPayTab(tab) {
+  ['paynow', 'plan'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+    document.getElementById('section-' + t).classList.toggle('active', t === tab);
+  });
+}
+
+function selectQPPlan(months) {
+  const plans = { 3: '$165.33', 6: '$82.67', 12: '$41.33' };
+  [3, 6, 12, 'custom'].forEach(m => {
+    const el = document.getElementById('qp-plan-' + m);
+    if (el) el.classList.toggle('selected', m === months);
+  });
+  const btn = document.getElementById('qp-plan-btn');
+  if (months !== 'custom' && btn) btn.textContent = 'Start Plan – ' + plans[months] + '/mo';
+}
+
+function sliderFill(slider) {
+  const pct = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+  slider.style.background = `linear-gradient(to right, var(--green) ${pct}%, #E5E7EB ${pct}%)`;
+}
+
+function updateQPCustom(val) {
+  const v = parseFloat(val);
+  const display = document.getElementById('qp-custom-display');
+  const detail = document.getElementById('qp-custom-detail');
+  const btn = document.getElementById('qp-plan-btn');
+  const slider = document.getElementById('qp-custom-input');
+  if (slider) sliderFill(slider);
+  if (v > 0) {
+    const months = Math.ceil(496 / v);
+    display.innerHTML = '$' + v.toFixed(2) + '<span>/mo</span>';
+    detail.textContent = '~' + months + ' payments · 0% interest';
+    if (btn) btn.textContent = 'Start Plan – $' + v.toFixed(2) + '/mo';
+  } else {
+    display.innerHTML = '—<span>/mo</span>';
+    detail.textContent = 'Drag to set your monthly payment · 0% interest';
+    if (btn) btn.textContent = 'Start Plan – $82.67/mo';
+  }
+}
+
+function toggleBFilter(el) {
+  el.closest('.bfilter-row').querySelectorAll('.bfc').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function updateCustomPlan(val) {
+  const v = parseFloat(val);
+  const display = document.getElementById('custom-plan-display');
+  const detail = document.getElementById('custom-plan-detail');
+  const footer = document.querySelector('.plan-footer .btn');
+  if (v > 0) {
+    const months = Math.ceil(496 / v);
+    display.innerHTML = '$' + v.toFixed(2) + '<span>/mo</span>';
+    detail.textContent = '~' + months + ' payments · 0% interest';
+    if (footer) footer.textContent = 'Start Plan – $' + v.toFixed(2) + '/mo';
+  } else {
+    display.innerHTML = '—<span>/mo</span>';
+    detail.textContent = 'Set your own monthly payment · 0% interest';
+    if (footer) footer.textContent = 'Start Plan - $82.67/mo';
   }
 }
 
@@ -3002,12 +3687,12 @@ function toggleDiscount() {
 // Plan selection
 function selectPlan(months) {
   const plans = { 3: '$165.33', 6: '$82.67', 12: '$41.33' };
-  [3, 6, 12].forEach(m => {
+  [3, 6, 12, 'custom'].forEach(m => {
     const el = document.getElementById('plan-' + m);
     if (el) el.classList.toggle('selected', m === months);
   });
   const footer = document.querySelector('.plan-footer .btn');
-  if (footer) footer.textContent = `Start Plan - ${plans[months]}/mo`;
+  if (months !== 'custom' && footer) footer.textContent = `Start Plan - ${plans[months]}/mo`;
 }
 
 // Chat interaction

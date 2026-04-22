@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.cedar.com)",
+      "WebFetch(domain:intuitionlabs.ai)",
+      "WebFetch(domain:www.certifyhealth.com)",
+      "WebFetch(domain:marketplace.aviahealth.com)",
+      "WebFetch(domain:healthsystemcio.com)",
+      "WebFetch(domain:research.contrary.com)",
+      "Bash(git push *)"
+    ]
+  }
+}
