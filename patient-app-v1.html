@@ -744,34 +744,6 @@ body {
 }
 .feedback-skip:focus { outline: none; }
 
-/* APP SWITCHER */
-#app-switcher { position: fixed; top: 20px; right: 20px; z-index: 200; }
-#switcher-btn {
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.7); padding: 7px 14px;
-  border-radius: 20px; font-size: 12px; font-weight: 600;
-  cursor: pointer; font-family: var(--font); transition: all 0.2s;
-}
-#switcher-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
-#switcher-menu {
-  display: none; flex-direction: column;
-  position: absolute; top: calc(100% + 8px); right: 0;
-  background: rgba(10,18,36,0.96); border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 14px; padding: 6px; min-width: 190px;
-  backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
-#app-switcher.open #switcher-menu { display: flex; }
-#switcher-menu a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 8px;
-  color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600;
-  text-decoration: none; transition: background 0.15s, color 0.15s;
-}
-#switcher-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
-#switcher-menu a i { width: 16px; color: var(--green); font-size: 12px; flex-shrink: 0; }
-#switcher-menu .sw-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 6px; }
-
 /* HOME - Clean minimal */
 .home-provider-bar {
   padding: 20px 24px 0;
@@ -874,19 +846,6 @@ body {
 </head>
 <body>
 
-<!-- App Switcher -->
-<div id="app-switcher">
-  <button id="switcher-btn" onclick="this.closest('#app-switcher').classList.toggle('open')">
-    <i class="fa-solid fa-grip"></i> Switch
-  </button>
-  <div id="switcher-menu">
-    <a href="index.html"><i class="fa-solid fa-house"></i> Hub</a>
-    <div class="sw-divider"></div>
-    <a href="patient-app-v1.html"><i class="fa-solid fa-mobile-screen"></i> Patient App - V1</a>
-    <a href="patient-app.html"><i class="fa-solid fa-mobile-screen"></i> Patient App - V2</a>
-    <a href="direct-pay.html"><i class="fa-solid fa-link"></i> Patient's Direct Link</a>
-  </div>
-</div>
 
 <div class="device">
 
@@ -932,7 +891,7 @@ body {
     <div class="status-spacer"></div>
     <div class="auth-wrap">
       <div class="auth-logo">
-        <span class="auth-logo-pill">&#128138;</span>
+        <span class="auth-logo-pill"><i class="fa-solid fa-user-doctor" style="color:var(--green);"></i></span>
         <span class="auth-logo-name">Pay My Doc</span>
       </div>
       <div class="auth-question">Let's confirm your identity</div>
@@ -990,7 +949,7 @@ body {
     <div class="status-spacer"></div>
     <div class="otp-wrap">
       <div class="auth-logo">
-        <span class="auth-logo-pill">&#128138;</span>
+        <span class="auth-logo-pill"><i class="fa-solid fa-user-doctor" style="color:var(--green);"></i></span>
         <span class="auth-logo-name">Pay My Doc</span>
       </div>
       <div class="auth-question">Enter your code</div>
@@ -1567,11 +1526,6 @@ setInterval(updateClock, 30000);
 document.querySelector('.device').addEventListener('touchmove', function(e) {
   if (!e.target.closest('.scroll')) e.preventDefault();
 }, { passive: false });
-
-document.addEventListener('click', (e) => {
-  const sw = document.getElementById('app-switcher');
-  if (sw && !sw.contains(e.target)) sw.classList.remove('open');
-});
 
 // Initialize partial pay slider fill
 updatePartialSlider(50);

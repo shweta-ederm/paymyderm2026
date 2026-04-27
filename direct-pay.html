@@ -801,57 +801,10 @@ body {
   flex-shrink: 0;
 }
 
-/* App Switcher */
-#app-switcher {
-  position: fixed; top: 16px; right: 16px; z-index: 9999;
-}
-#switcher-btn {
-  display: flex; align-items: center; gap: 7px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.22);
-  color: rgba(255,255,255,0.8);
-  padding: 7px 14px; border-radius: 20px;
-  font-size: 12px; font-weight: 600; cursor: pointer;
-  backdrop-filter: blur(10px); transition: all .2s;
-  font-family: inherit; letter-spacing: .03em;
-}
-#switcher-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
-#switcher-menu {
-  display: none; flex-direction: column;
-  position: absolute; top: calc(100% + 8px); right: 0;
-  background: rgba(10,18,36,0.96);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 14px; padding: 6px; min-width: 176px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
-#app-switcher.open #switcher-menu { display: flex; }
-#switcher-menu a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 8px;
-  color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600;
-  text-decoration: none; transition: background .15s, color .15s;
-}
-#switcher-menu a:hover { background: rgba(255,255,255,0.08); color: #fff; }
-#switcher-menu a i { width: 16px; color: #5CB85C; font-size: 12px; flex-shrink: 0; }
-#switcher-menu .sw-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 4px 6px; }
 
 </style>
 </head>
 <body>
-
-<!-- App Switcher -->
-<div id="app-switcher">
-  <button id="switcher-btn" onclick="this.closest('#app-switcher').classList.toggle('open')">
-    <i class="fa-solid fa-grip"></i> Switch
-  </button>
-  <div id="switcher-menu">
-    <a href="index.html"><i class="fa-solid fa-house"></i> Hub</a>
-    <div class="sw-divider"></div>
-    <a href="patient-app.html"><i class="fa-solid fa-mobile-screen"></i> Access By Website</a>
-    <a href="direct-pay.html"><i class="fa-solid fa-link"></i> Patient's Direct Link</a>
-  </div>
-</div>
 
 <div class="device">
 
@@ -1293,10 +1246,6 @@ document.querySelector('.device').addEventListener('touchmove', function(e) {
   if (!e.target.closest('.scroll')) e.preventDefault();
 }, { passive: false });
 
-document.addEventListener('click', (e) => {
-  const sw = document.getElementById('app-switcher');
-  if (sw && !sw.contains(e.target)) sw.classList.remove('open');
-});
 
 </script>
 </body>

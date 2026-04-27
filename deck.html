@@ -80,34 +80,6 @@ html, body {
 #nav-prev:hover, #nav-next:hover { background: rgba(92,184,92,.16); border-color: rgba(92,184,92,.35); color: #fff; }
 #nav-prev:disabled, #nav-next:disabled { opacity: .18; cursor: not-allowed; }
 
-/* App Switcher */
-#app-switcher { position: fixed; top: 14px; right: 16px; z-index: 200; }
-#switcher-btn {
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.13);
-  color: rgba(255,255,255,.6); padding: 6px 13px; border-radius: 20px;
-  font-size: 11px; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);
-  transition: all .2s; font-family: inherit;
-}
-#switcher-btn:hover { background: rgba(255,255,255,.13); color: #fff; }
-#switcher-menu {
-  display: none; flex-direction: column;
-  position: absolute; top: calc(100% + 8px); right: 0;
-  background: rgba(8,14,30,.97); border: 1px solid rgba(255,255,255,.1);
-  border-radius: 12px; padding: 5px; min-width: 168px;
-  backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,.6);
-}
-#app-switcher.open #switcher-menu { display: flex; }
-#switcher-menu a {
-  display: flex; align-items: center; gap: 9px;
-  padding: 9px 11px; border-radius: 7px;
-  color: rgba(255,255,255,.65); font-size: 12px; font-weight: 600;
-  text-decoration: none; transition: background .15s, color .15s;
-}
-#switcher-menu a:hover { background: rgba(255,255,255,.07); color: #fff; }
-#switcher-menu a i { width: 14px; color: var(--green); font-size: 11px; flex-shrink: 0; }
-#switcher-menu .sw-divider { height: 1px; background: rgba(255,255,255,.07); margin: 3px 5px; }
-
 /* ── SHARED ──────────────────────────────────────────────── */
 .eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
@@ -297,19 +269,6 @@ html, body {
 <div id="counter">1 / 7</div>
 <button id="nav-prev" onclick="changeSlide(-1)">← Prev</button>
 <button id="nav-next" onclick="changeSlide(1)">Next →</button>
-
-<div id="app-switcher">
-  <button id="switcher-btn" onclick="this.closest('#app-switcher').classList.toggle('open')">
-    <i class="fa-solid fa-grip"></i> Switch
-  </button>
-  <div id="switcher-menu">
-    <a href="index.html"><i class="fa-solid fa-house"></i> Hub</a>
-    <div class="sw-divider"></div>
-    <a href="patient-app.html"><i class="fa-solid fa-mobile-screen"></i> Patient App</a>
-    <a href="direct-pay.html"><i class="fa-solid fa-link"></i> Direct Pay</a>
-    <a href="deck.html"><i class="fa-solid fa-chart-bar"></i> Stakeholder Deck</a>
-  </div>
-</div>
 
 <!-- ══════════════════════ CANVAS ════════════════════════ -->
 <div id="slides">
@@ -522,11 +481,6 @@ html, body {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
     if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
   });
-  document.addEventListener('click', e => {
-    const sw = document.getElementById('app-switcher');
-    if (sw && !sw.contains(e.target)) sw.classList.remove('open');
-  });
-
   updateUI();
 </script>
 </body>
