@@ -118,13 +118,16 @@
   /* ── CARDS GRID ─────────────────────────────────────── */
   .cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
     width: 100%;
-    max-width: 720px;
+    max-width: 1080px;
     margin-bottom: 24px;
   }
 
+  @media (max-width: 920px) {
+    .cards { grid-template-columns: repeat(2, 1fr); max-width: 720px; }
+  }
   @media (max-width: 560px) {
     .cards { grid-template-columns: 1fr; max-width: 420px; }
   }
@@ -314,11 +317,22 @@
   <!-- ── CARDS ── -->
   <div class="cards">
 
-    <!-- Access By Website – V1 -->
+    <!-- Access By Website – V1 (Mobile) -->
     <a class="card" href="patient-app-v1.html">
       <div class="card-icon">📱</div>
-      <div class="card-title">Access By Website <span style="font-size:12px;font-weight:600;background:#F3F4F6;color:#6B7280;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;">V1</span></div>
+      <div class="card-title">Mobile Patient App <span style="font-size:12px;font-weight:600;background:#F3F4F6;color:#6B7280;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;">V1</span></div>
       <div class="card-desc">Core billing experience. Flexible payment plans, partial pay, instant feedback.</div>
+      <div class="card-cta">
+        Open Prototype
+        <span class="cta-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Access By Website – V1 Desktop -->
+    <a class="card" href="patient-app-v1-desktop.html">
+      <div class="card-icon">🖥️</div>
+      <div class="card-title">Desktop Patient App <span style="font-size:12px;font-weight:600;background:#F3F4F6;color:#6B7280;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;">V1</span></div>
+      <div class="card-desc">Same V1 features in a desktop layout — wider balance card, two-column payment flows, modal balance details.</div>
       <div class="card-cta">
         Open Prototype
         <span class="cta-arrow">→</span>
@@ -328,7 +342,7 @@
     <!-- Access By Website – V2 -->
     <a class="card" href="patient-app.html">
       <div class="card-icon">📱</div>
-      <div class="card-title">Access By Website <span style="font-size:12px;font-weight:600;background:#DCFCE7;color:#15803D;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;">V2</span></div>
+      <div class="card-title">Mobile Patient App <span style="font-size:12px;font-weight:600;background:#DCFCE7;color:#15803D;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;">V2</span></div>
       <div class="card-desc">Full billing suite — unified bills, AI assistant, HSA/FSA smart routing, insurance tracker, and payment plans.</div>
       <div class="card-cta">
         Open Prototype

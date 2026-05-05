@@ -344,30 +344,116 @@ body {
   font-size: 12px; color: rgba(255,255,255,0.25); font-weight: 500;
 }
 
-/* AUTH */
-.auth-wrap {
-  flex: 1; padding: 24px 24px 32px;
-  display: flex; flex-direction: column;
-}
+/* AUTH (used by OTP screen) */
+.auth-wrap { flex: 1; padding: 24px 24px 32px; display: flex; flex-direction: column; }
 .auth-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 40px; }
 .auth-logo-pill { font-size: 24px; }
 .auth-logo-name { font-size: 18px; font-weight: 800; color: var(--green); letter-spacing: -0.5px; }
-.auth-question {
-  font-size: 26px; font-weight: 800; color: var(--ink);
-  letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 10px;
+.auth-question { font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 10px; }
+
+/* LANDING (welcome + auth combined) */
+#auth { background: linear-gradient(180deg, #FFFFFF 0%, var(--green-50) 30%, #FFFFFF 70%, var(--canvas) 100%); }
+.landing-hero {
+  position: relative;
+  padding: 28px 24px 22px;
+  text-align: center;
+  overflow: hidden;
 }
-.auth-sub { font-size: 14px; color: var(--ink-3); line-height: 1.55; margin-bottom: 32px; }
-.auth-input-wrap { margin-bottom: 16px; }
-.auth-input-label { font-size: 13px; font-weight: 600; color: var(--ink-3); margin-bottom: 8px; }
-.auth-footer { margin-top: auto; padding-top: 24px; }
-.auth-legal { font-size: 12px; color: var(--ink-4); text-align: center; line-height: 1.7; margin-top: 16px; }
-.auth-legal a { color: var(--green); text-decoration: none; font-weight: 600; }
-.auth-trust {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 16px; padding: 10px 16px;
-  background: var(--green-50); border-radius: var(--r-md);
+.landing-hero-glow {
+  position: absolute;
+  top: -120px; left: 50%;
+  transform: translateX(-50%);
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(92,184,92,0.22) 0%, transparent 60%);
+  pointer-events: none;
 }
-.auth-trust-text { font-size: 12px; color: var(--green-dark); font-weight: 600; }
+.landing-brand {
+  position: relative; z-index: 2;
+}
+.landing-brand-pill {
+  width: 64px; height: 64px;
+  background: #fff;
+  border: 1px solid rgba(92,184,92,0.18);
+  border-radius: 18px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  margin-bottom: 14px;
+  box-shadow: 0 14px 32px rgba(92,184,92,0.28), 0 2px 6px rgba(0,0,0,0.04);
+}
+.landing-brand-pill i { color: var(--green); }
+.landing-brand-name {
+  font-size: 22px; font-weight: 900; color: var(--ink);
+  letter-spacing: -0.6px; margin-bottom: 10px;
+}
+.landing-headline {
+  position: relative; z-index: 2;
+  font-size: 24px; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.7px; line-height: 1.22;
+  margin: 4px 8px 18px;
+}
+.landing-headline span { color: var(--green-dark); }
+.landing-features {
+  position: relative; z-index: 2;
+  display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+}
+.landing-feature-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fff; border: 1px solid var(--ink-6);
+  padding: 6px 11px; border-radius: var(--r-full);
+  font-size: 11px; font-weight: 700; color: var(--ink-2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  letter-spacing: 0.1px;
+}
+.landing-feature-pill i { font-size: 10px; color: var(--green-dark); }
+
+.landing-auth-card {
+  margin: 6px 16px 14px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 22px 22px 18px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.03);
+  border: 1px solid var(--ink-6);
+}
+.landing-auth-heading {
+  font-size: 19px; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.4px; margin-bottom: 4px;
+}
+.landing-auth-sub {
+  font-size: 13px; color: var(--ink-3); line-height: 1.5;
+  margin-bottom: 16px;
+}
+.landing-input-wrap { position: relative; margin-bottom: 14px; }
+.landing-input {
+  width: 100%; padding: 13px 14px 13px 42px;
+  border: 1.5px solid var(--ink-5); border-radius: 12px;
+  font-size: 15px; color: var(--ink); background: #fff;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.landing-input:focus {
+  outline: none; border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(92,184,92,0.15);
+}
+.landing-input-icon {
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-4); font-size: 14px;
+}
+.landing-trust-row {
+  display: flex; gap: 14px; justify-content: center;
+  margin: 14px 0 10px;
+}
+.landing-trust-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 700; color: var(--ink-3);
+  letter-spacing: 0.2px;
+}
+.landing-trust-badge i { color: var(--green-dark); font-size: 11px; }
+.landing-legal {
+  font-size: 11px; color: var(--ink-4);
+  text-align: center; line-height: 1.55;
+}
+.landing-legal a { color: var(--green-dark); font-weight: 700; }
 
 /* AUTH ERROR */
 .error-wrap {
@@ -764,26 +850,40 @@ body {
 }
 .home-amount-section {
   margin: 4px 20px 0;
-  background: var(--green-50);
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--green-50) 100%);
   border-radius: var(--r-xl);
   border: 1.5px solid var(--green-light);
-  padding: 20px 24px 16px;
+  padding: 22px 24px 18px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s;
+  box-shadow: 0 6px 18px rgba(92,184,92,0.18), 0 1px 3px rgba(0,0,0,0.04);
+  transition: transform 0.12s var(--ease-out), box-shadow 0.12s, background 0.12s;
+  position: relative;
 }
-.home-amount-section:active { background: #d1fae5; border-color: #6ee7b7; }
+.home-amount-section:hover { box-shadow: 0 8px 22px rgba(92,184,92,0.25), 0 1px 3px rgba(0,0,0,0.05); }
+.home-amount-section:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(92,184,92,0.18);
+  background: linear-gradient(180deg, var(--green-50) 0%, #d1fae5 100%);
+}
 .home-amount-label {
-  font-size: 12px; color: var(--green-dark); font-weight: 600;
-  letter-spacing: 0.2px; margin-bottom: 4px; opacity: 0.7;
+  font-size: 11px; color: var(--green-dark); font-weight: 700;
+  letter-spacing: 0.8px; margin-bottom: 6px; text-transform: uppercase;
 }
 .home-amount-value {
   font-size: 48px; font-weight: 800; color: var(--ink);
   letter-spacing: -2.5px; line-height: 1;
 }
 .home-amount-chevron {
-  font-size: 13px; font-weight: 600; color: var(--green-dark);
-  margin-top: 8px; opacity: 0.8;
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px; padding: 7px 16px;
+  background: var(--green); color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.2px;
+  border-radius: var(--r-full);
+  box-shadow: 0 2px 6px rgba(92,184,92,0.35);
+}
+.home-amount-chevron .chev-arrow {
+  font-size: 14px; line-height: 1; transform: translateY(-1px);
 }
 .home-actions {
   padding: 20px 20px 0;
@@ -946,41 +1046,40 @@ body {
   </div>
 
 
-  <!-- SCREEN 1: SPLASH -->
-  <div class="screen active" id="splash">
-    <div class="splash-glow"></div>
-    <div class="splash-pill"><i class="fa-solid fa-user-doctor" style="color:var(--green);"></i></div>
-    <div class="splash-name">Pay My Doc.</div>
-    <div class="splash-tagline">A safe, secure, and fast way to pay your provider.</div>
-    <button class="splash-cta" onclick="go('auth')">
-      Get Started <span>&#8594;</span>
-    </button>
-    <div class="splash-trust"><i class="fa-solid fa-lock" style="font-size:10px;"></i>&nbsp; HIPAA Compliant &middot; Bank-level Encryption</div>
-  </div>
-
-
-  <!-- SCREEN 2: AUTH -->
-  <div class="screen" id="auth">
+  <!-- SCREEN 1: LANDING (welcome + auth) -->
+  <div class="screen active" id="auth">
     <div class="status-spacer"></div>
-    <div class="auth-wrap">
-      <div class="auth-logo">
-        <span class="auth-logo-pill"><i class="fa-solid fa-user-doctor" style="color:var(--green);"></i></span>
-        <span class="auth-logo-name">Pay My Doc</span>
+
+    <!-- Hero: brand + headline + features -->
+    <div class="landing-hero">
+      <div class="landing-hero-glow"></div>
+      <div class="landing-brand">
+        <div class="landing-brand-pill"><i class="fa-solid fa-user-doctor"></i></div>
+        <div class="landing-brand-name">Pay My Doc</div>
       </div>
-      <div class="auth-question">Let's confirm your identity</div>
-      <div class="auth-sub">Enter the phone number or email address we have on file for your account. We'll send you a one-time code.</div>
-      <div class="auth-input-wrap">
-        <div class="auth-input-label">Phone Number or Email</div>
-        <input class="input" type="text" placeholder="(555) 000-0000 or you@email.com" id="auth-input">
+      <div class="landing-headline">A safer, faster way to <span>pay your provider</span>.</div>
+      <div class="landing-features">
+        <span class="landing-feature-pill"><i class="fa-solid fa-shield-halved"></i> HIPAA Secure</span>
+        <span class="landing-feature-pill"><i class="fa-solid fa-percent"></i> 0% Plans</span>
+        <span class="landing-feature-pill"><i class="fa-solid fa-bolt"></i> Instant Pay</span>
       </div>
-      <div class="auth-footer">
-        <button class="btn btn-primary" onclick="handleAuth()">Send Verification Code &rarr;</button>
-        <div class="auth-trust" style="margin-top:14px;">
-          <i class="fa-solid fa-shield-halved" style="color:var(--green);font-size:13px;"></i>
-          <span class="auth-trust-text">Your information is never shared</span>
-        </div>
-        <div class="auth-legal" style="margin-top:14px;">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></div>
+    </div>
+
+    <!-- Auth card -->
+    <div class="landing-auth-card">
+      <div class="landing-auth-heading">Sign in to your bill</div>
+      <div class="landing-auth-sub">Enter the phone number or email on file. We'll send a one-time code.</div>
+      <div class="landing-input-wrap">
+        <i class="landing-input-icon fa-solid fa-user"></i>
+        <input class="landing-input" type="text" placeholder="Phone or email" id="auth-input">
       </div>
+      <button class="btn btn-primary" onclick="handleAuth()">Continue &rarr;</button>
+      <div class="landing-trust-row">
+        <span class="landing-trust-badge"><i class="fa-solid fa-lock"></i> 256-bit SSL</span>
+        <span class="landing-trust-badge"><i class="fa-solid fa-shield-halved"></i> HIPAA</span>
+        <span class="landing-trust-badge"><i class="fa-solid fa-credit-card"></i> PCI</span>
+      </div>
+      <div class="landing-legal">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy</a></div>
     </div>
   </div>
 
@@ -1004,7 +1103,7 @@ body {
           <div class="error-contact-icon"><i class="fa-solid fa-envelope"></i></div>
           <div>
             <div class="error-contact-text">Email Billing</div>
-            <div class="error-contact-sub">billing@dermatologyassociates.com</div>
+            <div class="error-contact-sub">billing@integrateddermatology.com</div>
           </div>
         </div>
       </div>
@@ -1052,7 +1151,7 @@ body {
       <!-- Provider bar + Help -->
       <div class="home-provider-bar">
         <i class="fa-solid fa-user-doctor" style="color:var(--green);font-size:14px;"></i>
-        Dermatology Associates
+        Integrated Dermatology
         <button onclick="go('assist')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:var(--ink-3);font-size:22px;padding:0;display:flex;align-items:center;line-height:1;">
           <i class="fa-regular fa-circle-question"></i>
         </button>
@@ -1070,7 +1169,7 @@ body {
       <div class="home-amount-section" onclick="showBalanceBreakup()">
         <div class="home-amount-label">Total due</div>
         <div class="home-amount-value">$496.00</div>
-        <div class="home-amount-chevron">View breakdown &#8250;</div>
+        <div class="home-amount-chevron">View Details <span class="chev-arrow">&#8250;</span></div>
       </div>
 
       <!-- Actions -->
@@ -1154,7 +1253,7 @@ body {
       </div>
 
       <div style="height:16px;"></div>
-      <button class="btn btn-primary" id="pay-btn" onclick="go('confirmation')" style="margin:0 20px;width:calc(100% - 40px);">Pay $496.00</button>
+      <button class="btn btn-primary" id="pay-btn" onclick="payFull()" style="margin:0 20px;width:calc(100% - 40px);">Pay $496.00</button>
       <div class="pay-security" style="text-align:center;margin:12px 20px 4px;">&#128274; PCI Compliant</div>
 
     </div>
@@ -1218,7 +1317,7 @@ body {
       </div>
 
       <div style="height:16px;"></div>
-      <button class="btn btn-primary" id="partial-pay-btn" onclick="go('confirmation')" style="margin:0 20px;width:calc(100% - 40px);">Pay $50.00</button>
+      <button class="btn btn-primary" id="partial-pay-btn" onclick="payPartial()" style="margin:0 20px;width:calc(100% - 40px);">Pay $50.00</button>
       <div class="pay-security" style="text-align:center;margin:12px 20px 4px;">&#128274; PCI Compliant</div>
 
     </div>
@@ -1316,7 +1415,7 @@ body {
       </div>
 
       <div style="height:16px;"></div>
-      <button class="btn btn-primary" id="plan-btn" onclick="go('confirmation')" style="margin:0 20px 24px;width:calc(100% - 40px);">Start Plan &mdash; $82.67/mo</button>
+      <button class="btn btn-primary" id="plan-btn" onclick="payPlan()" style="margin:0 20px 24px;width:calc(100% - 40px);">Start Plan &mdash; $82.67/mo</button>
 
     </div>
   </div>
@@ -1515,7 +1614,7 @@ body {
 <script>
 const screens = document.querySelectorAll('.screen');
 const statusbar = document.getElementById('statusbar');
-const lightScreens = ['splash'];
+const lightScreens = [];
 
 function go(id) {
   screens.forEach(s => { s.classList.remove('active'); s.style.animation = 'none'; });
@@ -1608,11 +1707,39 @@ function updatePartialSlider(val) {
   const slider = document.getElementById('partial-slider');
   if (display) display.textContent = '$' + v.toFixed(2);
   if (btn) btn.textContent = 'Pay $' + v.toFixed(2);
-  document.getElementById('confirm-amount-display').textContent = '$' + v.toFixed(2);
   if (slider) {
     const pct = (slider.value - slider.min) / (slider.max - slider.min) * 100;
     slider.style.background = 'linear-gradient(to right, var(--green) ' + pct + '%, #E5E7EB ' + pct + '%)';
   }
+}
+
+function payFull() {
+  const amt = document.getElementById('pay-display').textContent;
+  document.getElementById('confirm-amount-display').textContent = amt;
+  go('confirmation');
+}
+function payPartial() {
+  const amt = document.getElementById('partial-slider-display').textContent;
+  document.getElementById('confirm-amount-display').textContent = amt;
+  go('confirmation');
+}
+function payPlan() {
+  const plans = { 3: '$165.33', 6: '$82.67', 12: '$41.33' };
+  let amt = '$82.67';
+  for (const m of [3, 6, 12]) {
+    const el = document.getElementById('plan-' + m);
+    if (el && el.classList.contains('selected')) { amt = plans[m]; break; }
+  }
+  const customEl = document.getElementById('plan-custom');
+  if (customEl && customEl.classList.contains('selected')) {
+    const customDisp = document.getElementById('custom-plan-display');
+    if (customDisp) {
+      const match = customDisp.textContent.match(/\$[\d.]+/);
+      if (match) amt = match[0];
+    }
+  }
+  document.getElementById('confirm-amount-display').textContent = amt;
+  go('confirmation');
 }
 
 function selectPlan(months) {
@@ -1682,7 +1809,7 @@ document.querySelector('.device').addEventListener('touchmove', function(e) {
 // Initialize partial pay slider fill
 updatePartialSlider(50);
 
-go('splash');
+go('auth');
 </script>
 </body>
 </html>
