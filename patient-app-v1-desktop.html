@@ -462,11 +462,37 @@ input { font-family: inherit; }
 
 /* Upcoming visit (bottom) */
 .upcoming-section {
-  background: var(--surface); border: 1px solid var(--ink-6);
-  border-radius: var(--r-xl); padding: 20px 24px;
+  padding: 4px 4px;
+  margin-top: 28px;
   display: flex; align-items: center; gap: 16px;
-  box-shadow: var(--shadow-xs);
 }
+
+/* Plans banner (between action panel and upcoming) */
+.home-plans-banner {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 20px; margin-top: 8px;
+  background: var(--green-50);
+  border: 1px solid var(--green-light);
+  border-radius: var(--r-lg);
+  cursor: pointer; transition: all 0.15s;
+  text-decoration: none;
+}
+.home-plans-banner:hover {
+  background: #DCFCE7; border-color: #86EFAC;
+  transform: translateX(2px);
+}
+.home-plans-banner-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: #fff; color: var(--green-dark);
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.home-plans-banner-text { flex: 1; }
+.home-plans-banner-title { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; }
+.home-plans-banner-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.home-plans-banner-arrow { font-size: 22px; color: var(--green-dark); line-height: 1; }
 .upcoming-label {
   font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
   text-transform: uppercase; color: var(--ink-4);
@@ -719,6 +745,135 @@ input { font-family: inherit; }
 .confirm-actions { display: flex; flex-direction: column; gap: 10px; }
 .confirm-actions .btn { max-width: 100%; }
 
+/* ── MY PAYMENT PLANS ─────────────────────────────── */
+.my-plans-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--ink-4);
+  margin: 0 0 12px;
+}
+.my-plans-group { margin-bottom: 28px; }
+.my-plan-card {
+  background: var(--surface); border: 1px solid var(--ink-6);
+  border-radius: var(--r-xl); padding: 24px 28px;
+  margin-bottom: 16px; box-shadow: var(--shadow-xs);
+  transition: box-shadow 0.15s;
+}
+.my-plan-card:hover { box-shadow: var(--shadow-sm); }
+.my-plan-card.active { border-color: var(--green-light); border-width: 1.5px; }
+.my-plan-card.past { background: var(--canvas); }
+.my-plan-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 16px; margin-bottom: 16px;
+}
+.my-plan-title { font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.4px; }
+.my-plan-sub { font-size: 13px; color: var(--ink-3); margin-top: 4px; }
+.my-plan-monthly {
+  font-size: 28px; font-weight: 800; color: var(--green-dark);
+  letter-spacing: -0.8px; white-space: nowrap; line-height: 1;
+}
+.my-plan-monthly span { font-size: 13px; color: var(--ink-4); font-weight: 600; }
+.my-plan-progress-bar {
+  height: 8px; background: var(--ink-6); border-radius: var(--r-full);
+  overflow: hidden; margin-bottom: 8px;
+}
+.my-plan-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--green), var(--green-hover));
+  border-radius: var(--r-full); transition: width 0.4s var(--ease-out);
+}
+.my-plan-progress-text {
+  font-size: 13px; color: var(--ink-3); font-weight: 600; margin-bottom: 18px;
+}
+.my-plan-stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  padding: 16px 0; border-top: 1px solid var(--ink-6);
+}
+.my-plan-stat { text-align: left; }
+.my-plan-stat-label { font-size: 11px; color: var(--ink-4); font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 4px; }
+.my-plan-stat-value { font-size: 16px; font-weight: 700; color: var(--ink); }
+.my-plan-actions {
+  display: flex; gap: 10px; margin-top: 16px;
+  align-items: center; justify-content: flex-end;
+}
+.my-plan-actions .btn {
+  width: auto; flex: 0 0 auto;
+  padding: 0 22px; height: 44px;
+  font-size: 14px;
+}
+.my-plan-history-link {
+  background: transparent; border: none;
+  padding: 8px 14px;
+  font-family: var(--font); font-size: 13px; font-weight: 600;
+  color: var(--ink-3); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: var(--r-md);
+  transition: all 0.15s;
+}
+.my-plan-history-link:hover { color: var(--ink); background: var(--canvas); }
+.my-plan-history-link i { font-size: 12px; }
+.my-plan-actions { align-items: center; }
+
+/* PAYMENT HISTORY MODAL */
+.ph-overlay {
+  position: fixed; inset: 0;
+  background: rgba(17,24,39,0.5);
+  z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.ph-overlay.visible { opacity: 1; pointer-events: all; }
+.ph-sheet {
+  width: 100%; max-width: 560px; max-height: 86vh;
+  background: var(--surface);
+  border-radius: var(--r-2xl);
+  overflow: hidden; display: flex; flex-direction: column;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.25s var(--ease-out);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+}
+.ph-overlay.visible .ph-sheet { transform: translateY(0) scale(1); }
+.ph-hdr {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--ink-6);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-shrink: 0;
+}
+.ph-title { font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.4px; }
+.ph-sub { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+.ph-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--canvas); border: 1px solid var(--ink-6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--ink-3); cursor: pointer;
+  transition: all 0.15s;
+}
+.ph-close:hover { background: var(--ink-6); color: var(--ink); }
+.ph-body { overflow-y: auto; padding: 8px 28px 24px; flex: 1; }
+.ph-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 16px 0; border-bottom: 1px solid var(--ink-6); gap: 16px;
+}
+.ph-row:last-child { border-bottom: none; }
+.ph-row-amount { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.3px; }
+.ph-row-meta { font-size: 13px; color: var(--ink-3); margin-top: 4px; }
+.ph-row-right { text-align: right; flex-shrink: 0; }
+.ph-badge {
+  display: inline-block; padding: 4px 12px;
+  background: var(--green-light); color: var(--green-dark);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.2px;
+  border-radius: var(--r-full);
+}
+.ph-ref { font-size: 11px; color: var(--ink-4); margin-top: 4px; font-weight: 500; }
+.my-plan-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green-light); color: var(--green-dark);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.2px;
+  padding: 6px 12px; border-radius: var(--r-full);
+  white-space: nowrap; flex-shrink: 0;
+}
+.my-plan-badge i { font-size: 11px; }
+
 /* ── BALANCE BREAKUP MODAL (centered dialog) ──────────── */
 .balance-sheet-overlay {
   position: fixed; inset: 0;
@@ -902,7 +1057,7 @@ input { font-family: inherit; }
         <div>
           <div class="landing-story-eyebrow">
             <i class="fa-solid fa-circle-check" style="font-size:10px;"></i>
-            Trusted by Integrated Dermatology
+            Trusted by 10,000+ patients
           </div>
           <h1 class="landing-story-headline">A safer, faster way to <span>pay your provider</span>.</h1>
           <p class="landing-story-sub">Pay your medical bills in seconds, set up an interest-free plan, or split the balance — all from one secure dashboard.</p>
@@ -952,6 +1107,9 @@ input { font-family: inherit; }
             <span class="landing-d-trust-badge"><i class="fa-solid fa-credit-card"></i> PCI</span>
           </div>
           <div class="landing-d-legal">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></div>
+          <div style="margin-top:12px; text-align:center;">
+            <a onclick="triggerMultiMatch()" style="font-size:11px; color:var(--ink-4); font-weight:500; cursor:pointer; text-decoration:underline; letter-spacing:0.2px;">Prototype: preview multi-account flow &rarr;</a>
+          </div>
         </div>
 
       </div>
@@ -988,6 +1146,30 @@ input { font-family: inherit; }
         <div style="font-size:11px; color:var(--ink-4); font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;">Prototype Only</div>
         <a style="font-size:13px; color:var(--green-dark); font-weight:700; cursor:pointer;" onclick="go('home')">Skip to Home Screen &rarr;</a>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────── DOB DISAMBIGUATION (when 2+ accounts share contact info) ─────────────────────────────────────── -->
+<div class="screen" id="auth-dob">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="auth-logo-pill"><i class="fa-solid fa-user-doctor" style="color:var(--green);"></i></span>
+        <span class="auth-logo-name">Pay My Doc</span>
+      </div>
+      <div class="auth-question">One more step</div>
+      <div class="auth-sub">We found <strong>2 accounts</strong> linked to <strong id="dob-contact-display">this contact</strong>. Please confirm your date of birth to continue.</div>
+      <div class="auth-input-wrap">
+        <label class="auth-input-label">Date of Birth</label>
+        <div style="display:flex; gap:12px;">
+          <input class="input" type="text" placeholder="MM" maxlength="2" id="dob-mm" inputmode="numeric" style="width:88px; text-align:center; letter-spacing:2px;">
+          <input class="input" type="text" placeholder="DD" maxlength="2" id="dob-dd" inputmode="numeric" style="width:88px; text-align:center; letter-spacing:2px;">
+          <input class="input" type="text" placeholder="YYYY" maxlength="4" id="dob-yyyy" inputmode="numeric" style="flex:1; text-align:center; letter-spacing:2px;">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="submitDob()">Continue &rarr;</button>
     </div>
   </div>
 </div>
@@ -1081,6 +1263,16 @@ input { font-family: inherit; }
         </div>
       </div>
     </div>
+
+    <!-- Plans banner -->
+    <a class="home-plans-banner" onclick="go('my-plans')">
+      <div class="home-plans-banner-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+      <div class="home-plans-banner-text">
+        <div class="home-plans-banner-title">1 active payment plan</div>
+        <div class="home-plans-banner-sub">$82.67/mo &middot; 33% complete &middot; next charge Jun 1</div>
+      </div>
+      <div class="home-plans-banner-arrow">&#8250;</div>
+    </a>
 
     <!-- Upcoming visit -->
     <div class="upcoming-section">
@@ -1387,6 +1579,93 @@ input { font-family: inherit; }
 </div>
 
 
+<!-- ─────────────────────────────────────── MY PAYMENT PLANS ─────────────────────────────────────── -->
+<div class="screen" id="my-plans">
+  <div class="app-main">
+    <div class="screen-topbar">
+      <button class="screen-back-btn" onclick="go('home')">&larr; Back</button>
+      <div class="screen-title">My Payment Plans</div>
+    </div>
+
+    <div class="my-plans-group">
+      <div class="my-plans-label">Active</div>
+
+      <div class="my-plan-card active">
+        <div class="my-plan-header">
+          <div>
+            <div class="my-plan-title">6-Month Plan</div>
+            <div class="my-plan-sub">Started Apr 16, 2026 &middot; Visa &middot;&middot;&middot;&middot;4242</div>
+          </div>
+          <div class="my-plan-monthly">$82.67<span>/mo</span></div>
+        </div>
+
+        <div class="my-plan-progress-bar">
+          <div class="my-plan-progress-fill" style="width:33%;"></div>
+        </div>
+        <div class="my-plan-progress-text">2 of 6 payments &middot; 33% complete</div>
+
+        <div class="my-plan-stats-row">
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Paid so far</div>
+            <div class="my-plan-stat-value">$165.34</div>
+          </div>
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Remaining</div>
+            <div class="my-plan-stat-value">$330.66</div>
+          </div>
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Next charge</div>
+            <div class="my-plan-stat-value">Jun 1, 2026</div>
+          </div>
+        </div>
+
+        <div class="my-plan-actions">
+          <button class="btn btn-primary" onclick="payRemainingInFull('6-Month Plan', 330.66)">Pay $330.66 in full &amp; end plan</button>
+          <button class="my-plan-history-link" onclick="showPaymentHistory('6-month')">
+            <i class="fa-regular fa-clock"></i> View payment history
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-plans-group">
+      <div class="my-plans-label">Past Plans</div>
+
+      <div class="my-plan-card past">
+        <div class="my-plan-header">
+          <div>
+            <div class="my-plan-title">3-Month Plan</div>
+            <div class="my-plan-sub">Sept 2025 &ndash; Dec 2025 &middot; Visa &middot;&middot;&middot;&middot;4242</div>
+          </div>
+          <div class="my-plan-badge"><i class="fa-solid fa-circle-check"></i> Completed</div>
+        </div>
+
+        <div class="my-plan-stats-row">
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Total paid</div>
+            <div class="my-plan-stat-value">$495.99</div>
+          </div>
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Monthly</div>
+            <div class="my-plan-stat-value">$165.33</div>
+          </div>
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Payments</div>
+            <div class="my-plan-stat-value">3 of 3</div>
+          </div>
+        </div>
+
+        <div class="my-plan-actions">
+          <button class="my-plan-history-link" onclick="showPaymentHistory('3-month')">
+            <i class="fa-regular fa-clock"></i> View payment history
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ─────────────────────────────────────── CONFIRMATION ─────────────────────────────────────── -->
 <div class="screen" id="confirmation">
   <div class="app-main">
@@ -1423,6 +1702,21 @@ input { font-family: inherit; }
 </div>
 
 
+<!-- ─────────────────────────────────────── PAYMENT HISTORY MODAL ─────────────────────────────────────── -->
+<div class="ph-overlay" id="ph-overlay" onclick="handlePaymentHistoryClick(event)">
+  <div class="ph-sheet">
+    <div class="ph-hdr">
+      <div>
+        <div class="ph-title">Payment History</div>
+        <div class="ph-sub" id="ph-plan-name">&mdash;</div>
+      </div>
+      <button class="ph-close" onclick="closePaymentHistory()">&#10005;</button>
+    </div>
+    <div class="ph-body" id="ph-body"></div>
+  </div>
+</div>
+
+
 <!-- ─────────────────────────────────────── BALANCE BREAKUP MODAL ─────────────────────────────────────── -->
 <div class="balance-sheet-overlay" id="balance-sheet-overlay" onclick="handleBalanceOverlayClick(event)">
   <div class="balance-sheet">
@@ -1443,15 +1737,15 @@ input { font-family: inherit; }
         <div class="stmt-cpt-block">
           <div class="stmt-cpt-code">99213 — Office Visit, Established Patient</div>
           <div class="stmt-row"><span class="stmt-row-label">Billed</span><span class="stmt-row-value">$350.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid (Contractual)</span><span class="stmt-row-value">$175.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Written Off</span><span class="stmt-row-value">$85.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid</span><span class="stmt-row-value">$175.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Adjustment Contractual</span><span class="stmt-row-value">$85.00</span></div>
           <div class="stmt-row pt-resp"><span class="stmt-row-label">Patient Responsibility</span><span class="stmt-row-value">$90.00</span></div>
         </div>
         <div class="stmt-cpt-block">
           <div class="stmt-cpt-code">11100 — Skin Biopsy, Single Lesion</div>
           <div class="stmt-row"><span class="stmt-row-label">Billed</span><span class="stmt-row-value">$425.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid (Contractual)</span><span class="stmt-row-value">$200.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Written Off</span><span class="stmt-row-value">$95.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid</span><span class="stmt-row-value">$200.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Adjustment Contractual</span><span class="stmt-row-value">$95.00</span></div>
           <div class="stmt-row pt-resp"><span class="stmt-row-label">Patient Responsibility</span><span class="stmt-row-value">$130.00</span></div>
         </div>
       </div>
@@ -1465,15 +1759,15 @@ input { font-family: inherit; }
         <div class="stmt-cpt-block">
           <div class="stmt-cpt-code">99214 — Office Visit, Moderate Complexity</div>
           <div class="stmt-row"><span class="stmt-row-label">Billed</span><span class="stmt-row-value">$450.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid (Contractual)</span><span class="stmt-row-value">$220.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Written Off</span><span class="stmt-row-value">$110.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid</span><span class="stmt-row-value">$220.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Adjustment Contractual</span><span class="stmt-row-value">$110.00</span></div>
           <div class="stmt-row pt-resp"><span class="stmt-row-label">Patient Responsibility</span><span class="stmt-row-value">$120.00</span></div>
         </div>
         <div class="stmt-cpt-block">
           <div class="stmt-cpt-code">17000 — Destruction, Benign Lesion</div>
           <div class="stmt-row"><span class="stmt-row-label">Billed</span><span class="stmt-row-value">$380.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid (Contractual)</span><span class="stmt-row-value">$155.00</span></div>
-          <div class="stmt-row"><span class="stmt-row-label">Insurance Written Off</span><span class="stmt-row-value">$69.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Paid</span><span class="stmt-row-value">$155.00</span></div>
+          <div class="stmt-row"><span class="stmt-row-label">Insurance Adjustment Contractual</span><span class="stmt-row-value">$69.00</span></div>
           <div class="stmt-row pt-resp"><span class="stmt-row-label">Patient Responsibility</span><span class="stmt-row-value">$156.00</span></div>
         </div>
       </div>
@@ -1524,7 +1818,7 @@ input { font-family: inherit; }
 <script>
 const screens = document.querySelectorAll('.screen');
 const appHeader = document.getElementById('app-header');
-const appScreens = ['home', 'payment', 'partial-pay', 'plans', 'assist', 'confirmation'];
+const appScreens = ['home', 'payment', 'partial-pay', 'plans', 'my-plans', 'assist', 'confirmation'];
 
 function go(id) {
   screens.forEach(s => { s.classList.remove('active'); s.style.animation = 'none'; });
@@ -1553,6 +1847,31 @@ function handleAuth() {
   const val = (document.getElementById('auth-input').value || '').trim();
   if (val.length < 3) { go('auth-error'); return; }
   document.getElementById('otp-sent-to').textContent = val;
+  // Multi-match flow: in production this is driven by API response. For the prototype,
+  // typing "dual" (or any input containing it) triggers the DOB disambiguation step.
+  if (val.toLowerCase().includes('dual')) {
+    document.getElementById('dob-contact-display').textContent = val.replace(/dual/ig, '').trim() || 'this contact';
+    go('auth-dob');
+    return;
+  }
+  go('otp');
+}
+
+function triggerMultiMatch() {
+  const val = (document.getElementById('auth-input').value || '').trim() || 'angela@example.com';
+  document.getElementById('otp-sent-to').textContent = val;
+  document.getElementById('dob-contact-display').textContent = val;
+  go('auth-dob');
+}
+
+function submitDob() {
+  const mm = (document.getElementById('dob-mm').value || '').trim();
+  const dd = (document.getElementById('dob-dd').value || '').trim();
+  const yyyy = (document.getElementById('dob-yyyy').value || '').trim();
+  if (mm.length < 1 || dd.length < 1 || yyyy.length !== 4) {
+    alert('Please enter a valid date of birth.');
+    return;
+  }
   go('otp');
 }
 
@@ -1678,6 +1997,58 @@ function handleBalanceOverlayClick(e) {
 
 function downloadReceipt() {
   alert('PDF download available in production.');
+}
+
+function payRemainingInFull(planName, amount) {
+  if (confirm('Pay remaining $' + amount.toFixed(2) + ' on ' + planName + '? This will end your plan and close the balance.')) {
+    document.getElementById('confirm-amount-display').textContent = '$' + amount.toFixed(2);
+    go('confirmation');
+  }
+}
+
+const planHistories = {
+  '6-month': {
+    name: '6-Month Plan · $82.67/mo',
+    payments: [
+      { date: 'May 1, 2026',  amount: '$82.67',  method: 'Visa ····4242', ref: '#PMD-29104' },
+      { date: 'Apr 16, 2026', amount: '$82.67',  method: 'Visa ····4242', ref: '#PMD-28491' }
+    ]
+  },
+  '3-month': {
+    name: '3-Month Plan · $165.33/mo',
+    payments: [
+      { date: 'Dec 1, 2025', amount: '$165.33', method: 'Visa ····4242', ref: '#PMD-27003' },
+      { date: 'Nov 1, 2025', amount: '$165.33', method: 'Visa ····4242', ref: '#PMD-26511' },
+      { date: 'Oct 1, 2025', amount: '$165.33', method: 'Visa ····4242', ref: '#PMD-25998' }
+    ]
+  }
+};
+
+function showPaymentHistory(planId) {
+  const plan = planHistories[planId];
+  if (!plan) return;
+  document.getElementById('ph-plan-name').textContent = plan.name;
+  const body = document.getElementById('ph-body');
+  body.innerHTML = plan.payments.map(p =>
+    '<div class="ph-row">' +
+      '<div>' +
+        '<div class="ph-row-amount">' + p.amount + '</div>' +
+        '<div class="ph-row-meta">' + p.date + ' · ' + p.method + '</div>' +
+      '</div>' +
+      '<div class="ph-row-right">' +
+        '<span class="ph-badge">Paid</span>' +
+        '<div class="ph-ref">' + p.ref + '</div>' +
+      '</div>' +
+    '</div>').join('');
+  document.getElementById('ph-overlay').classList.add('visible');
+}
+
+function closePaymentHistory() {
+  document.getElementById('ph-overlay').classList.remove('visible');
+}
+
+function handlePaymentHistoryClick(e) {
+  if (e.target === document.getElementById('ph-overlay')) closePaymentHistory();
 }
 function showAddCard() {
   alert('Add New Card — card entry form opens here in production.');

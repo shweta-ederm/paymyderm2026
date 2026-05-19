@@ -8,7 +8,13 @@
       "WebFetch(domain:marketplace.aviahealth.com)",
       "WebFetch(domain:healthsystemcio.com)",
       "WebFetch(domain:research.contrary.com)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "mcp__claude_ai_Atlassian__getJiraProjectIssueTypesMetadata",
+      "mcp__claude_ai_Atlassian__createJiraIssue",
+      "mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql",
+      "mcp__claude_ai_Atlassian__editJiraIssue"
     ]
   }
 }
