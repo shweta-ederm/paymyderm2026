@@ -14,7 +14,10 @@
       "mcp__claude_ai_Atlassian__getJiraProjectIssueTypesMetadata",
       "mcp__claude_ai_Atlassian__createJiraIssue",
       "mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql",
-      "mcp__claude_ai_Atlassian__editJiraIssue"
+      "mcp__claude_ai_Atlassian__editJiraIssue",
+      "mcp__claude_ai_Atlassian__search",
+      "Bash(git -C \"c:\\\\Users\\\\ShwetaSingh\\\\OneDrive - Integrated Dermatology\\\\Jandy Health\\\\Pay My Derm 2026\" diff)",
+      "Bash(git -C \"c:\\\\Users\\\\ShwetaSingh\\\\OneDrive - Integrated Dermatology\\\\Jandy Health\\\\Pay My Derm 2026\" log --oneline -5)"
     ]
   }
 }
