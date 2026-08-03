@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pay My Doc | Payment Workflows &amp; Open Questions</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #2E8B57;
+    --primary-dark: #1F6B42;
+    --ink:     #0F172A;
+    --ink-2:   #334155;
+    --ink-3:   #64748B;
+    --ink-4:   #94A3B8;
+    --surface: #FFFFFF;
+    --bg:      #F1F4F7;
+    --border:  #E2E8F0;
+
+    --line:    #94A3B8;
+
+    --nmi:     #1D4F91;  --nmi-bg: #E4ECF7;  --nmi-bd: #A9C3E4;
+    --edm:     #5B3E96;  --edm-bg: #ECE7F6;  --edm-bd: #C4B4E3;
+    --ok:      #107C41;  --ok-bg:  #E3F1E8;  --ok-bd:  #A8CFB8;
+    --bad:     #B42318;  --bad-bg: #F9E7E4;  --bad-bd: #E5AFA7;
+    --eml:     #A16207;  --eml-bg: #F9F0DC;  --eml-bd: #E0C692;
+
+    --font-head: 'Sora', 'Roboto', sans-serif;
+    --font-body: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html, body { min-height: 100%; font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 24px 72px; }
+
+  /* ── TOP BAR ─────────────────────────────────────────── */
+  .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px; flex-wrap:wrap; gap:12px; }
+  .back {
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-head); font-size:12.5px; font-weight:600; color:var(--ink-2); text-decoration:none;
+    padding:9px 16px; background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05); transition:.2s;
+  }
+  .back:hover { color:var(--primary-dark); border-color:var(--primary); }
+  .doc-meta { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip {
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:11.5px; font-weight:700;
+    padding:6px 13px; border-radius:20px;
+    background:var(--surface); border:1px solid var(--border); color:var(--ink-2);
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .chip i { color:var(--primary-dark); }
+  .chip.review { background:#A16207; border-color:#A16207; color:#fff; }
+  .chip.review i { color:#fff; }
+
+  /* ── HERO (compact) ──────────────────────────────────── */
+  .hero {
+    display:flex; align-items:center; gap:20px;
+    background:linear-gradient(120deg, #0F3D24 0%, #1E6B3C 60%, #2E8B57 100%);
+    border-radius:18px; padding:24px 30px; color:#fff;
+    margin-bottom: 28px;
+    box-shadow:0 10px 28px rgba(15,61,36,.28);
+  }
+  .hero-mark {
+    flex-shrink:0; width:52px; height:52px; border-radius:15px;
+    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.25);
+    display:flex; align-items:center; justify-content:center; font-size:23px;
+  }
+  .hero-eyebrow {
+    font-family:var(--font-head); font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+    color:#9BD4AE; margin-bottom:4px;
+  }
+  .hero h1 { font-family:var(--font-head); font-size:clamp(19px,3vw,25px); font-weight:800; letter-spacing:-.02em; margin-bottom:5px; }
+  .hero p { font-size:13px; color:rgba(255,255,255,.85); line-height:1.6; max-width:820px; }
+  @media (max-width:640px){ .hero { flex-direction:column; text-align:center; align-items:center; } }
+
+  /* ── LEGEND ─────────────────────────────────────────── */
+  .legend {
+    display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:12px 16px; margin:0 0 40px; box-shadow:0 2px 8px rgba(0,0,0,.05);
+  }
+  .legend-title {
+    font-family:var(--font-head); font-size:10.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-4); margin-right:6px; display:inline-flex; align-items:center; gap:7px;
+  }
+  .lg {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; font-weight:700; color:var(--ink);
+    padding:5px 12px 5px 6px; border-radius:24px; border:1.5px solid;
+  }
+  .lg .sw {
+    width:22px; height:22px; border-radius:7px; color:#fff; font-size:10px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .lg-ok  { border-color:var(--ok-bd);  background:var(--ok-bg);  } .lg-ok .sw  { background:var(--ok);  }
+  .lg-nmi { border-color:var(--nmi-bd); background:var(--nmi-bg); } .lg-nmi .sw { background:var(--nmi); }
+  .lg-edm { border-color:var(--edm-bd); background:var(--edm-bg); } .lg-edm .sw { background:var(--edm); }
+  .lg-eml { border-color:var(--eml-bd); background:var(--eml-bg); } .lg-eml .sw { background:var(--eml); }
+  .lg-bad { border-color:var(--bad-bd); background:var(--bad-bg); } .lg-bad .sw { background:var(--bad); }
+
+  /* ── SECTION HEADERS ────────────────────────────────── */
+  .section { margin-bottom: 48px; }
+  .sec-head { display:flex; align-items:center; gap:16px; margin-bottom:18px; }
+  .sec-medal {
+    flex-shrink:0; width:50px; height:50px; border-radius:15px;
+    background:linear-gradient(140deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 16px rgba(31,107,66,.3);
+    position:relative; font-size:19px;
+  }
+  .sec-medal .n {
+    position:absolute; bottom:-6px; right:-6px;
+    width:22px; height:22px; border-radius:7px; background:var(--ink); color:#fff;
+    font-family:var(--font-head); font-size:11px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+    border:2.5px solid var(--bg);
+  }
+  .sec-medal.q   { background:linear-gradient(140deg,#C98A2C,#A16207); box-shadow:0 6px 16px rgba(161,98,7,.3); }
+  .sec-medal.obs { background:linear-gradient(140deg,#64748B,#334155); box-shadow:0 6px 16px rgba(51,65,85,.25); }
+  .sec-eyebrow {
+    font-family:var(--font-head); font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--primary-dark); margin-bottom:3px;
+  }
+  .sec-eyebrow.amber { color:#A16207; }
+  .sec-eyebrow.slate { color:var(--ink-3); }
+  .sec-head h2 { font-family:var(--font-head); font-size:21px; font-weight:800; letter-spacing:-.02em; color:var(--ink); }
+  .sec-head .sub { font-size:13px; color:var(--ink-3); margin-top:4px; line-height:1.55; }
+
+  .panel {
+    background:var(--surface); border:1px solid var(--border); border-radius:20px;
+    padding:30px 28px; box-shadow:0 3px 12px rgba(15,23,42,.05);
+    overflow-x:auto;
+  }
+  .panel + .panel { margin-top:16px; }
+
+  .panel-title {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    font-family:var(--font-head); font-size:11.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:24px;
+  }
+  .panel-title i { color:var(--primary-dark); font-size:13px; }
+  .panel-title::before, .panel-title::after { content:''; flex:1; height:2px; background:linear-gradient(90deg,transparent,var(--border)); border-radius:2px; }
+  .panel-title::after { background:linear-gradient(90deg,var(--border),transparent); }
+
+  .panel-note {
+    margin-top:22px; display:flex; gap:13px; align-items:center;
+    padding:13px 18px; border-radius:13px;
+    background:linear-gradient(135deg,#EAF4EE,#E3F0E8); border:1.5px solid var(--ok-bd);
+    font-size:13px; color:var(--ink-2); line-height:1.65;
+  }
+  .panel-note > i {
+    flex-shrink:0; width:32px; height:32px; border-radius:10px; background:var(--ok); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:14px;
+  }
+  .panel-note b { color:var(--primary-dark); }
+
+  /* ── EXEC SUMMARY ───────────────────────────────────── */
+  .exec-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  @media (max-width:720px){ .exec-grid{ grid-template-columns:1fr; } }
+  .exec-item {
+    display:flex; gap:14px; padding:17px 16px; border-radius:15px;
+    border:1.5px solid var(--border); background:#F8FAFC;
+  }
+  .exec-item > i {
+    flex-shrink:0; width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; font-size:17px; color:#fff;
+    box-shadow:0 4px 10px rgba(15,23,42,.12);
+  }
+  .exec-item b { display:block; font-family:var(--font-head); font-size:13.5px; font-weight:700; letter-spacing:-.01em; margin-bottom:4px; }
+  .exec-item p { font-size:12.5px; color:var(--ink-3); line-height:1.6; }
+  .ic-g { background:linear-gradient(140deg,#2E9E63,#107C41); }
+  .ic-b { background:linear-gradient(140deg,#3D77C2,#1D4F91); }
+  .ic-p { background:linear-gradient(140deg,#7B5EB8,#5B3E96); }
+  .ic-a { background:linear-gradient(140deg,#C98A2C,#A16207); }
+  .ic-r { background:linear-gradient(140deg,#CD4B3D,#B42318); }
+
+  /* system context strip: single row, grid so boxes never touch */
+  .sys-strip {
+    display:grid; grid-template-columns:1fr auto 1fr auto 1fr;
+    gap:14px; align-items:center; margin-top:26px;
+  }
+  .sys-box { text-align:center; padding:16px 12px 14px; border-radius:16px; border:2px solid; min-width:0; }
+  .sys-box .sys-ic {
+    width:38px; height:38px; margin:0 auto 9px; border-radius:12px; color:#fff; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sys-box b { display:block; font-family:var(--font-head); font-size:14px; font-weight:700; margin-bottom:2px; color:var(--ink); }
+  .sys-box span { font-size:11.5px; color:var(--ink-3); }
+  .sys-pmd { background:var(--ok-bg);  border-color:var(--ok-bd); }  .sys-pmd .sys-ic { background:var(--ok); }
+  .sys-nmi { background:var(--nmi-bg); border-color:var(--nmi-bd); } .sys-nmi .sys-ic { background:var(--nmi); }
+  .sys-edm { background:var(--edm-bg); border-color:var(--edm-bd); } .sys-edm .sys-ic { background:var(--edm); }
+  .sys-link { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .sys-link .ln { font-size:15px; color:var(--ink-3); }
+  .sys-link .lt {
+    font-family:var(--font-head); font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+    color:var(--ink-3); margin-top:5px; white-space:nowrap;
+    background:var(--bg); border:1px solid var(--border); padding:3px 8px; border-radius:10px;
+  }
+  @media (max-width:760px){
+    .sys-strip { grid-template-columns:1fr; }
+    .sys-link .ln { transform:rotate(90deg); }
+  }
+
+  /* ── FLOWCHART PRIMITIVES ───────────────────────────── */
+  .flow { display:flex; flex-direction:column; align-items:center; min-width:620px; }
+  @media (max-width:640px){ .flow { min-width:0; } }
+
+  .node {
+    position:relative;
+    background:#fff; border:2px solid var(--border); border-radius:14px;
+    padding:12px 18px; font-size:13px; line-height:1.55; text-align:center;
+    max-width:340px; box-shadow:0 2px 6px rgba(15,23,42,.05);
+    color:var(--ink-2);
+  }
+  .node b { color:var(--ink); font-weight:700; }
+  .node .nd-ic { margin-right:8px; font-size:13px; }
+  .node small { display:block; font-size:11.5px; color:var(--ink-3); margin-top:4px; line-height:1.55; }
+
+  .n-start {
+    background:linear-gradient(140deg,#1E293B,#0F172A); border-color:#0F172A; color:#E2E8F0;
+    border-radius:999px; padding:12px 28px;
+    box-shadow:0 5px 14px rgba(15,23,42,.25);
+  }
+  .n-start b { color:#fff; font-family:var(--font-head); font-size:13px; }
+  .n-start small { color:#94A3B8; }
+  .n-start .nd-ic { color:#7DD3FC; }
+  .n-nmi  { background:var(--nmi-bg); border-color:var(--nmi-bd); } .n-nmi .nd-ic { color:var(--nmi); }
+  .n-edm  { background:var(--edm-bg); border-color:var(--edm-bd); } .n-edm .nd-ic { color:var(--edm); }
+  .n-ok   { background:var(--ok-bg);  border-color:var(--ok-bd); }  .n-ok .nd-ic  { color:var(--ok); }
+  .n-bad  { background:var(--bad-bg); border-color:var(--bad-bd); } .n-bad .nd-ic { color:var(--bad); }
+  .n-eml  { background:var(--eml-bg); border-color:var(--eml-bd); } .n-eml .nd-ic { color:var(--eml); }
+  .n-end-ok  { background:linear-gradient(140deg,#2E9E63,#107C41); border-color:#107C41; color:#fff; border-radius:999px; font-family:var(--font-head); font-weight:700; font-size:12.5px; box-shadow:0 5px 14px rgba(16,124,65,.28); }
+  .n-end-bad { background:linear-gradient(140deg,#CD4B3D,#B42318); border-color:#B42318; color:#fff; border-radius:999px; font-family:var(--font-head); font-weight:700; font-size:12.5px; box-shadow:0 5px 14px rgba(180,35,24,.28); }
+  .n-end-ok small, .n-end-bad small { color:rgba(255,255,255,.8); font-family:var(--font-body); font-weight:400; }
+  .n-end-ok i, .n-end-bad i { margin-right:7px; }
+
+  .sys-tag {
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    font-family:var(--font-head); font-size:9px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    padding:3px 11px; border-radius:20px; white-space:nowrap; color:#fff;
+    box-shadow:0 2px 6px rgba(15,23,42,.2);
+  }
+  .t-nmi { background:var(--nmi); }
+  .t-edm { background:var(--edm); }
+  .t-pmd { background:var(--ok); }
+  .t-eml { background:var(--eml); }
+
+  /* stage band */
+  .stage { width:100%; display:flex; align-items:center; gap:14px; margin:28px 0 22px; }
+  .stage::before, .stage::after { content:''; flex:1; height:2px; background:var(--border); border-radius:2px; }
+  .stage span {
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--font-head); font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink); background:var(--bg); border:1.5px solid var(--border);
+    padding:7px 16px; border-radius:24px;
+  }
+  .stage span i {
+    width:21px; height:21px; border-radius:7px; background:var(--nmi); color:#fff; font-size:10px;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* connectors */
+  .arr { width:2.5px; height:26px; background:var(--line); position:relative; margin:4px 0 9px; }
+  .arr::after {
+    content:''; position:absolute; bottom:-6px; left:-4.2px;
+    border-left:5.5px solid transparent; border-right:5.5px solid transparent; border-top:8px solid var(--line);
+  }
+  .arr-lbl {
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-head); font-size:10px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
+    padding:4px 12px; border-radius:20px; margin-bottom:5px; color:#fff;
+    box-shadow:0 2px 6px rgba(15,23,42,.15);
+  }
+  .l-ok  { background:var(--ok); }
+  .l-bad { background:var(--bad); }
+  .l-neu { background:#64748B; }
+
+  /* fork into two branches */
+  .stub { width:2.5px; height:16px; background:var(--line); }
+  .fork {
+    width:50%; height:24px; margin:0 auto; position:relative;
+    border-top:2.5px solid var(--line); border-left:2.5px solid var(--line); border-right:2.5px solid var(--line);
+    border-radius:16px 16px 0 0;
+  }
+  .fork::before, .fork::after {
+    content:''; position:absolute; bottom:-8px;
+    border-left:5.5px solid transparent; border-right:5.5px solid transparent; border-top:8px solid var(--line);
+  }
+  .fork::before { left:-6.7px; }
+  .fork::after  { right:-6.7px; }
+  .fork-wrap { width:100%; display:flex; flex-direction:column; align-items:center; }
+  .branches { display:grid; grid-template-columns:1fr 1fr; gap:24px; width:100%; margin-top:12px; }
+  .branch { display:flex; flex-direction:column; align-items:center; }
+  .branch .arr { height:20px; }
+  .branch .node { max-width:300px; }
+  .branch .fork-wrap .node { max-width:100%; }
+
+  @media (max-width:640px){
+    .fork, .stub { display:none; }
+    .branches { grid-template-columns:1fr; gap:28px; margin-top:8px; }
+    .branch { padding-top:12px; border-top:2px dashed var(--border); }
+  }
+
+  /* ── RETRY TIMELINE (payment plan) ──────────────────── */
+  .timeline { position:relative; max-width:780px; margin:0 auto; }
+  .timeline::before {
+    content:''; position:absolute; left:21px; top:10px; bottom:26px;
+    width:3px; background:var(--border); border-radius:3px;
+  }
+  .tstep { position:relative; padding-left:64px; padding-bottom:22px; }
+  .tstep:last-child { padding-bottom:0; }
+  .tnum {
+    position:absolute; left:0; top:0;
+    width:44px; height:44px; border-radius:14px;
+    background:#fff; border:2.5px solid var(--nmi); color:var(--nmi);
+    font-family:var(--font-head); font-size:17px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 10px rgba(29,79,145,.18);
+  }
+  .tstep.final .tnum { border-color:var(--bad); color:var(--bad); box-shadow:0 3px 10px rgba(180,35,24,.18); }
+  .tcard { border:1.5px solid var(--border); border-radius:16px; background:#fff; overflow:hidden; box-shadow:0 2px 8px rgba(15,23,42,.05); }
+  .tstep.final .tcard { border-color:var(--bad-bd); }
+  .tcard-head {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding:12px 18px; background:#F8FAFC; border-bottom:1.5px solid var(--border);
+  }
+  .tstep.final .tcard-head { background:#FBF0EE; border-bottom-color:var(--bad-bd); }
+  .tcard-head b { font-family:var(--font-head); font-size:13px; font-weight:800; letter-spacing:.02em; text-transform:uppercase; color:var(--ink); }
+  .tstep.final .tcard-head b { color:var(--bad); }
+  .when {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:700; color:var(--ink-3);
+    background:#fff; border:1px solid var(--border); padding:4px 11px; border-radius:20px;
+  }
+  .when i { font-size:10px; color:var(--ink-4); }
+  .tcard-head .charge {
+    margin-left:auto; display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--font-head); font-size:9.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+    background:var(--nmi); color:#fff; padding:5px 12px; border-radius:20px;
+  }
+  .orow { display:flex; gap:14px; padding:13px 18px; align-items:center; font-size:13px; color:var(--ink-2); line-height:1.6; }
+  .orow + .orow { border-top:1.5px dashed var(--border); }
+  .orow .ochip {
+    flex-shrink:0; display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-head); font-size:9.5px; font-weight:800; letter-spacing:.07em; text-transform:uppercase;
+    padding:5px 12px; border-radius:20px; color:#fff; min-width:74px; justify-content:center;
+  }
+  .ochip.ok  { background:var(--ok); }
+  .ochip.bad { background:var(--bad); }
+  .orow.cancel { background:var(--bad-bg); }
+  .orow.cancel b { color:var(--bad); }
+  .tgap {
+    position:relative; margin:-8px 0 14px 64px;
+    display:inline-flex; align-items:center; gap:7px;
+  }
+  @media (max-width:560px){
+    .tcard-head .charge { margin-left:0; }
+    .orow { flex-direction:column; align-items:flex-start; gap:8px; }
+  }
+
+  /* ledger comparison */
+  .ledger-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:720px){ .ledger-grid{ grid-template-columns:1fr; } }
+  .ledger { position:relative; overflow:hidden; border:2px solid; border-radius:17px; padding:21px; }
+  .ledger.pmd { background:var(--ok-bg);  border-color:var(--ok-bd); }
+  .ledger.edm { background:var(--edm-bg); border-color:var(--edm-bd); }
+  .ledger .wm { position:absolute; right:-18px; bottom:-24px; font-size:105px; opacity:.07; pointer-events:none; }
+  .ledger h4 { display:flex; align-items:center; gap:11px; font-family:var(--font-head); font-size:14.5px; font-weight:700; margin-bottom:13px; color:var(--ink); }
+  .ledger h4 .hic {
+    width:33px; height:33px; border-radius:10px; color:#fff; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ledger.pmd h4 .hic { background:var(--ok); }
+  .ledger.edm h4 .hic { background:var(--edm); }
+  .ledger ul { list-style:none; position:relative; }
+  .ledger li { display:flex; gap:10px; font-size:13px; color:var(--ink-2); line-height:1.6; padding:5px 0; }
+  .ledger li i { flex-shrink:0; margin-top:3px; font-size:13px; }
+  .ledger li i.pos { color:var(--ok); }
+  .ledger li i.warn { color:var(--bad); }
+
+  .risk-band {
+    margin-top:20px; display:flex; gap:15px; align-items:center;
+    background:linear-gradient(135deg,#FBEBE8,#FAEEEA); border:2px solid var(--bad-bd);
+    border-left:6px solid var(--bad); border-radius:15px; padding:17px 19px;
+  }
+  .risk-band > i {
+    flex-shrink:0; width:42px; height:42px; border-radius:12px;
+    background:linear-gradient(140deg,#CD4B3D,#B42318); color:#fff; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 5px 12px rgba(180,35,24,.28);
+  }
+  .risk-band b { color:var(--bad); display:block; font-family:var(--font-head); font-size:14px; font-weight:700; margin-bottom:3px; }
+  .risk-band p { font-size:13px; color:var(--ink-2); line-height:1.65; }
+
+  /* ── QUESTIONS ──────────────────────────────────────── */
+  .q-card {
+    background:var(--surface); border:2px solid #DDB964; border-radius:20px;
+    padding:28px 26px; box-shadow:0 3px 12px rgba(15,23,42,.05);
+  }
+  .q-scenario {
+    display:flex; gap:15px; align-items:center;
+    background:linear-gradient(135deg,#FBF5E4,#F8EFD8); border:1.5px solid #DDB964; border-radius:15px;
+    padding:16px 19px; font-size:13.5px; line-height:1.7; color:var(--ink-2); margin-bottom:22px;
+  }
+  .q-scenario > i {
+    flex-shrink:0; width:38px; height:38px; border-radius:11px;
+    background:linear-gradient(140deg,#C98A2C,#A16207); color:#fff; font-size:15px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px rgba(161,98,7,.28);
+  }
+  .q-scenario b { color:#8F6400; }
+  .opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:720px){ .opt-grid{ grid-template-columns:1fr; } }
+  .opt {
+    border:2px solid var(--border); border-radius:17px; padding:22px 20px; background:#F8FAFC;
+    display:flex; flex-direction:column;
+  }
+  .opt-head { display:flex; align-items:center; gap:12px; margin-bottom:13px; }
+  .opt-head .oic {
+    flex-shrink:0; width:44px; height:44px; border-radius:13px; color:#fff; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px rgba(15,23,42,.15);
+  }
+  .opt-1 .oic { background:linear-gradient(140deg,#7B5EB8,#5B3E96); }
+  .opt-2 .oic { background:linear-gradient(140deg,#3D77C2,#1D4F91); }
+  .opt-tag {
+    font-family:var(--font-head); font-size:9px; font-weight:800; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ink-4); display:block; margin-bottom:2px;
+  }
+  .opt h4 { font-family:var(--font-head); font-size:15px; font-weight:700; letter-spacing:-.01em; line-height:1.35; }
+  .opt > p { font-size:12.5px; color:var(--ink-3); line-height:1.65; margin-bottom:15px; flex:1; }
+  .opt ul { list-style:none; border-top:2px dashed var(--border); padding-top:13px; }
+  .opt li { display:flex; gap:10px; font-size:12.5px; color:var(--ink-2); line-height:1.6; padding:4px 0; }
+  .opt li .li-ic {
+    flex-shrink:0; width:18px; height:18px; border-radius:6px; margin-top:2px;
+    display:flex; align-items:center; justify-content:center; font-size:9px; color:#fff;
+  }
+  .li-plus .li-ic  { background:var(--ok); }
+  .li-minus .li-ic { background:var(--bad); }
+  .li-info .li-ic  { background:var(--nmi); }
+
+  /* observations */
+  .obs { list-style:none; }
+  .obs li { display:flex; gap:14px; padding:14px 0; border-bottom:2px dashed var(--border); font-size:13px; color:var(--ink-2); line-height:1.65; }
+  .obs li:last-child { border-bottom:none; padding-bottom:2px; }
+  .obs li:first-child { padding-top:0; }
+  .obs .oic {
+    flex-shrink:0; width:36px; height:36px; border-radius:11px; margin-top:2px;
+    background:linear-gradient(140deg,#C98A2C,#A16207); color:#fff; font-size:14px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px rgba(161,98,7,.22);
+  }
+  .obs b { color:var(--ink); }
+
+  footer { text-align:center; padding:28px 24px; border-top:1px solid var(--border); margin-top:8px; }
+  .footer-logo { font-family:var(--font-head); font-size:13.5px; font-weight:700; color:var(--ink-4); }
+
+  @media print {
+    body { background:#fff; }
+    .topbar { display:none; }
+    .panel, .q-card, .hero { box-shadow:none; break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ── TOP BAR ── -->
+  <div class="topbar">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a class="back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Hub</a>
+      <a class="back" href="pmd-workflows-diagram.html"><i class="fa-solid fa-diagram-project"></i> Diagram view</a>
+    </div>
+    <div class="doc-meta">
+      <span class="chip"><i class="fa-regular fa-calendar"></i> Aug 3, 2026</span>
+      <span class="chip"><i class="fa-solid fa-code-branch"></i> Developer workflow spec</span>
+      <span class="chip review"><i class="fa-solid fa-clipboard-check"></i> Pending management review</span>
+    </div>
+  </div>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-mark"><i class="fa-solid fa-user-doctor"></i></div>
+    <div>
+      <div class="hero-eyebrow">Pay My Doc · Payments Architecture</div>
+      <h1>Payment Workflows: Review &amp; Approval</h1>
+      <p>The development team's current understanding of how card storage, one-time payments, and payment plans flow through PMD, the NMI payment gateway, and eDerm, followed by the open questions that need a management decision.</p>
+    </div>
+  </header>
+
+  <!-- ── LEGEND ── -->
+  <div class="legend">
+    <span class="legend-title"><i class="fa-solid fa-palette"></i> Color key</span>
+    <span class="lg lg-ok"><span class="sw"><i class="fa-solid fa-check"></i></span> PMD / success</span>
+    <span class="lg lg-nmi"><span class="sw"><i class="fa-solid fa-credit-card"></i></span> NMI gateway</span>
+    <span class="lg lg-edm"><span class="sw"><i class="fa-solid fa-hospital"></i></span> eDerm posting</span>
+    <span class="lg lg-eml"><span class="sw"><i class="fa-solid fa-envelope"></i></span> Patient email</span>
+    <span class="lg lg-bad"><span class="sw"><i class="fa-solid fa-xmark"></i></span> Failure path</span>
+  </div>
+
+  <!-- ══════════════════ 0. EXEC SUMMARY ══════════════════ -->
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-medal"><i class="fa-solid fa-bolt"></i></div>
+      <div>
+        <div class="sec-eyebrow">At a glance</div>
+        <h2>Executive Summary</h2>
+        <div class="sub">Five things to know before reading the flows</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="exec-grid">
+        <div class="exec-item">
+          <i class="fa-solid fa-shield-halved ic-b"></i>
+          <div>
+            <b>Cards are validated twice, never charged, when added</b>
+            <p>Collect.js checks the card in the browser and tokenizes it; NMI validates again when saving to the customer vault. PMD never touches raw card numbers, only tokens.</p>
+          </div>
+        </div>
+        <div class="exec-item">
+          <i class="fa-solid fa-arrows-turn-right ic-g"></i>
+          <div>
+            <b>Every payment follows the same two-step spine</b>
+            <p>Charge through NMI first; only on success does PMD post the payment to eDerm. A failed eDerm posting never blocks the payment, since an hourly job retries it.</p>
+          </div>
+        </div>
+        <div class="exec-item">
+          <i class="fa-solid fa-calendar-check ic-a"></i>
+          <div>
+            <b>Payment plans self-heal across three attempts</b>
+            <p>Installments auto-charge on the due date, then retry on each of the next two days with patient emails in between. Three consecutive failures cancel the plan.</p>
+          </div>
+        </div>
+        <div class="exec-item">
+          <i class="fa-solid fa-scale-unbalanced ic-p"></i>
+          <div>
+            <b>Plans create a temporary ledger mismatch</b>
+            <p>Once a plan starts, PMD shows a $0 balance while eDerm still shows the unpaid remainder. The same balance stays collectible from eDerm, PayMyDerm, or the front desk.</p>
+          </div>
+        </div>
+        <div class="exec-item" style="grid-column:1/-1;">
+          <i class="fa-solid fa-circle-question ic-r"></i>
+          <div>
+            <b>One decision is blocking: how to reconcile the two ledgers</b>
+            <p>If the plan-covered balance gets paid on the eDerm side, should eDerm flag it as covered by a PMD plan, or should such a payment cancel the PMD plan via a webhook? See <a href="#questions" style="color:var(--primary-dark);font-weight:700;">Open Questions</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- system context -->
+      <div class="sys-strip">
+        <div class="sys-box sys-pmd">
+          <div class="sys-ic"><i class="fa-solid fa-mobile-screen-button"></i></div>
+          <b>Pay My Doc</b>
+          <span>Patient payment portal</span>
+        </div>
+        <div class="sys-link">
+          <span class="ln"><i class="fa-solid fa-arrow-right-arrow-left"></i></span>
+          <span class="lt">tokenize · vault · charge</span>
+        </div>
+        <div class="sys-box sys-nmi">
+          <div class="sys-ic"><i class="fa-solid fa-credit-card"></i></div>
+          <b>NMI</b>
+          <span>Payment gateway &amp; card vault</span>
+        </div>
+        <div class="sys-link">
+          <span class="ln"><i class="fa-solid fa-arrow-right-arrow-left"></i></span>
+          <span class="lt">post payments · pull charges</span>
+        </div>
+        <div class="sys-box sys-edm">
+          <div class="sys-ic"><i class="fa-solid fa-hospital"></i></div>
+          <b>eDerm</b>
+          <span>Practice management system</span>
+        </div>
+      </div>
+      <div class="panel-note">
+        <i class="fa-solid fa-diagram-project"></i>
+        <span><b>How to read this:</b> PMD sits between the patient and both systems. NMI handles all money movement; eDerm remains the billing system of record. The PMD-to-eDerm link is where the open questions live.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 1. ADD CARD ══════════════════ -->
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-medal"><i class="fa-solid fa-credit-card"></i><span class="n">1</span></div>
+      <div>
+        <div class="sec-eyebrow">Workflow 01</div>
+        <h2>Adding a Card</h2>
+        <div class="sub">Two-stage validation: browser tokenization, then a server-side vault save. No charge occurs in this flow.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="flow">
+        <div class="node n-start"><i class="fa-solid fa-user nd-ic"></i><b>Patient enters card details</b><small>number · expiration · CVV · cardholder name · billing ZIP</small></div>
+
+        <div class="stage"><span><i class="fa-solid fa-window-maximize"></i> Stage 1 · Collect.js · in the browser</span></div>
+
+        <div class="node n-nmi"><span class="sys-tag t-nmi">Collect.js</span><i class="fa-solid fa-list-check nd-ic"></i><b>Validate card fields</b><small>card number format · expiration date · CVV</small></div>
+
+        <div class="fork-wrap">
+          <div class="stub"></div>
+          <div class="fork"></div>
+          <div class="branches">
+            <div class="branch">
+              <span class="arr-lbl l-ok"><i class="fa-solid fa-check"></i> Valid</span>
+              <div class="arr"></div>
+              <div class="node n-ok"><i class="fa-solid fa-key nd-ic"></i><b>One-time payment token created</b><small>raw card data never reaches PMD servers</small></div>
+            </div>
+            <div class="branch">
+              <span class="arr-lbl l-bad"><i class="fa-solid fa-xmark"></i> Invalid / timeout</span>
+              <div class="arr"></div>
+              <div class="node n-bad"><i class="fa-solid fa-triangle-exclamation nd-ic"></i><b>Field errors shown inline</b><small>no token is created and the flow stops here (a tokenization timeout also produces no token)</small></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stage"><span><i class="fa-solid fa-server"></i> Stage 2 · NMI vault save · on the server</span></div>
+
+        <div class="node n-ok"><span class="sys-tag t-pmd">PMD</span><i class="fa-solid fa-paper-plane nd-ic"></i><b>Send token to NMI</b><small>payment token + cardholder name + billing ZIP</small></div>
+        <div class="arr"></div>
+        <div class="node n-nmi"><span class="sys-tag t-nmi">NMI</span><i class="fa-solid fa-vault nd-ic"></i><b>Validate token &amp; save card to customer vault</b><small>creates a new vault, or adds a billing method to an existing one</small></div>
+
+        <div class="fork-wrap">
+          <div class="stub"></div>
+          <div class="fork"></div>
+          <div class="branches">
+            <div class="branch">
+              <span class="arr-lbl l-ok"><i class="fa-solid fa-check"></i> Success</span>
+              <div class="arr"></div>
+              <div class="node n-ok"><i class="fa-solid fa-id-card nd-ic"></i><b>NMI returns vault ID + card details</b></div>
+              <div class="arr"></div>
+              <div class="node n-end-ok"><i class="fa-solid fa-circle-check"></i>Card saved in PMD</div>
+            </div>
+            <div class="branch">
+              <span class="arr-lbl l-bad"><i class="fa-solid fa-xmark"></i> Error</span>
+              <div class="arr"></div>
+              <div class="node n-bad"><i class="fa-solid fa-circle-exclamation nd-ic"></i><b>NMI returns an error</b></div>
+              <div class="arr"></div>
+              <div class="node n-end-bad"><i class="fa-solid fa-ban"></i>Card is not saved</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-note">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span><b>Key point:</b> the card is checked twice (once at tokenization, once at vault save) and <b>no charge ever happens</b> while adding a card. Charging only occurs in the payment flows below.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 2. ONE-TIME PAYMENTS ══════════════════ -->
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-medal"><i class="fa-solid fa-money-bill-wave"></i><span class="n">2</span></div>
+      <div>
+        <div class="sec-eyebrow">Workflow 02</div>
+        <h2>One-Time Payments: Pay in Full &amp; Partial Pay</h2>
+        <div class="sub">Both follow an identical flow; partial pay simply leaves the remaining balance open.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="flow">
+        <div class="node n-start"><i class="fa-solid fa-hand-pointer nd-ic"></i><b>Patient chooses an amount</b><small>Pay in Full: the entire balance &nbsp;·&nbsp; Partial Pay: patient picks the amount</small></div>
+        <div class="arr"></div>
+        <div class="node n-nmi"><span class="sys-tag t-nmi">NMI</span><i class="fa-solid fa-credit-card nd-ic"></i><b>Charge request sent to NMI</b></div>
+
+        <div class="fork-wrap">
+          <div class="stub"></div>
+          <div class="fork"></div>
+          <div class="branches">
+            <div class="branch">
+              <span class="arr-lbl l-ok"><i class="fa-solid fa-check"></i> Approved</span>
+              <div class="arr"></div>
+              <div class="node n-ok"><span class="sys-tag t-pmd">PMD</span><i class="fa-solid fa-circle-check nd-ic"></i><b>Payment marked <u>Paid</u></b><small>partial pay: remaining balance stays open in PMD</small></div>
+              <div class="arr"></div>
+              <div class="node n-edm"><span class="sys-tag t-edm">eDerm</span><i class="fa-solid fa-file-invoice-dollar nd-ic"></i><b>Posting attempted to eDerm</b><small>applied to the oldest unpaid charge, described as a PayMyDoc payment</small></div>
+
+              <div class="fork-wrap">
+                <div class="stub"></div>
+                <div class="fork"></div>
+                <div class="branches">
+                  <div class="branch">
+                    <span class="arr-lbl l-ok"><i class="fa-solid fa-check"></i> Posted</span>
+                    <div class="arr"></div>
+                    <div class="node n-end-ok"><i class="fa-solid fa-flag-checkered"></i>Done</div>
+                  </div>
+                  <div class="branch">
+                    <span class="arr-lbl l-neu"><i class="fa-solid fa-xmark"></i> Posting failed</span>
+                    <div class="arr"></div>
+                    <div class="node n-edm"><i class="fa-solid fa-rotate nd-ic"></i><b>Hourly retry job</b><small>re-attempts failed eDerm postings until they succeed</small></div>
+                    <div class="arr"></div>
+                    <div class="node n-end-ok"><i class="fa-solid fa-circle-check"></i>Posted on a later run</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="branch">
+              <span class="arr-lbl l-bad"><i class="fa-solid fa-xmark"></i> Declined</span>
+              <div class="arr"></div>
+              <div class="node n-bad"><span class="sys-tag t-pmd">PMD</span><i class="fa-solid fa-circle-xmark nd-ic"></i><b>Payment marked <u>Failed</u></b></div>
+              <div class="arr"></div>
+              <div class="node n-bad"><i class="fa-solid fa-desktop nd-ic"></i><b>Error shown on screen</b><small>at the time of payment only; no email, no persistent notice</small></div>
+              <div class="arr"></div>
+              <div class="node n-end-bad"><i class="fa-solid fa-rotate-left"></i>Balance unchanged</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-note">
+        <i class="fa-solid fa-lock"></i>
+        <span><b>Guarantee:</b> a payment is never lost between systems. If the NMI charge succeeds but the eDerm posting fails, the payment is already safely marked Paid in PMD, and the hourly job keeps retrying the posting.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 3. PAYMENT PLAN ══════════════════ -->
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-medal"><i class="fa-solid fa-calendar-days"></i><span class="n">3</span></div>
+      <div>
+        <div class="sec-eyebrow">Workflow 03</div>
+        <h2>Payment Plans</h2>
+        <div class="sub">First installment charged up front; later installments auto-charge with a three-attempt retry schedule.</div>
+      </div>
+    </div>
+
+    <!-- 3a: setup -->
+    <div class="panel">
+      <div class="panel-title"><i class="fa-solid fa-flag"></i> Plan setup: first installment</div>
+      <div class="flow">
+        <div class="node n-start"><i class="fa-solid fa-user nd-ic"></i><b>Patient sets up a payment plan</b></div>
+        <div class="arr"></div>
+        <div class="node n-nmi"><span class="sys-tag t-nmi">NMI</span><i class="fa-solid fa-credit-card nd-ic"></i><b>Charge the first installment</b></div>
+
+        <div class="fork-wrap">
+          <div class="stub"></div>
+          <div class="fork"></div>
+          <div class="branches">
+            <div class="branch">
+              <span class="arr-lbl l-ok"><i class="fa-solid fa-check"></i> Approved</span>
+              <div class="arr"></div>
+              <div class="node n-ok"><span class="sys-tag t-pmd">PMD</span><i class="fa-solid fa-calendar-check nd-ic"></i><b>Plan created: installment 1 <u>Paid</u></b><small>remaining installments scheduled on their due dates</small></div>
+              <div class="arr"></div>
+              <div class="node n-edm"><span class="sys-tag t-edm">eDerm</span><i class="fa-solid fa-file-invoice-dollar nd-ic"></i><b>First installment posted to eDerm</b><small>hourly retry job covers a failed posting</small></div>
+              <div class="arr"></div>
+              <div class="node n-eml"><span class="sys-tag t-eml">Email</span><i class="fa-solid fa-envelope-open-text nd-ic"></i><b>Reminder sent 7 days before each upcoming installment</b></div>
+            </div>
+            <div class="branch">
+              <span class="arr-lbl l-bad"><i class="fa-solid fa-xmark"></i> Declined</span>
+              <div class="arr"></div>
+              <div class="node n-bad"><i class="fa-solid fa-circle-xmark nd-ic"></i><b>Payment marked <u>Failed</u>; plan is <u>not</u> created</b></div>
+              <div class="arr"></div>
+              <div class="node n-eml"><span class="sys-tag t-eml">Email</span><i class="fa-solid fa-envelope nd-ic"></i><b>Failure email sent to patient</b><small>error also shown on screen at the time of payment only</small></div>
+              <div class="arr"></div>
+              <div class="node n-end-bad"><i class="fa-solid fa-ban"></i>No plan exists</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3b: retry timeline -->
+    <div class="panel">
+      <div class="panel-title"><i class="fa-solid fa-rotate"></i> Each later installment: automatic retry schedule</div>
+
+      <div class="timeline">
+
+        <div class="tstep">
+          <div class="tnum">1</div>
+          <div class="tcard">
+            <div class="tcard-head">
+              <b>Attempt 1</b>
+              <span class="when"><i class="fa-regular fa-clock"></i> On the installment due date</span>
+              <span class="charge"><i class="fa-solid fa-credit-card"></i> NMI auto-charge</span>
+            </div>
+            <div class="orow">
+              <span class="ochip ok"><i class="fa-solid fa-check"></i> Paid</span>
+              <span>Payment posts to eDerm (the hourly job covers a failed posting). The plan continues to the next installment.</span>
+            </div>
+            <div class="orow">
+              <span class="ochip bad"><i class="fa-solid fa-xmark"></i> Failed</span>
+              <span>Patient is emailed to update their payment method. The plan stays active and the UI shows a "previous payment failed" notice. The charge retries the next day.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tstep">
+          <div class="tnum">2</div>
+          <div class="tcard">
+            <div class="tcard-head">
+              <b>Attempt 2</b>
+              <span class="when"><i class="fa-regular fa-clock"></i> 1 day after the due date</span>
+              <span class="charge"><i class="fa-solid fa-rotate-right"></i> NMI retry</span>
+            </div>
+            <div class="orow">
+              <span class="ochip ok"><i class="fa-solid fa-check"></i> Paid</span>
+              <span>Payment posts to eDerm (the hourly job covers a failed posting). The plan continues to the next installment.</span>
+            </div>
+            <div class="orow">
+              <span class="ochip bad"><i class="fa-solid fa-xmark"></i> Failed</span>
+              <span>Patient is emailed again and the failure notice remains on the UI. A final retry runs the next day.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tstep final">
+          <div class="tnum">3</div>
+          <div class="tcard">
+            <div class="tcard-head">
+              <b>Attempt 3 · Final</b>
+              <span class="when"><i class="fa-regular fa-clock"></i> 2 days after the due date</span>
+              <span class="charge"><i class="fa-solid fa-rotate-right"></i> NMI final retry</span>
+            </div>
+            <div class="orow">
+              <span class="ochip ok"><i class="fa-solid fa-check"></i> Paid</span>
+              <span>Payment posts to eDerm (the hourly job covers a failed posting). The plan continues to the next installment.</span>
+            </div>
+            <div class="orow cancel">
+              <span class="ochip bad"><i class="fa-solid fa-ban"></i> Failed</span>
+              <span><b>The plan is cancelled.</b> A cancellation email is sent and the plan no longer appears on the UI.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel-note">
+        <i class="fa-solid fa-hand-holding-dollar"></i>
+        <span><b>Early payoff:</b> the patient can pay off the remaining plan balance at any time. It follows the same NMI-then-eDerm flow as any other payment.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 4. POSTING & LEDGER STATE ══════════════════ -->
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-medal"><i class="fa-solid fa-scale-unbalanced"></i><span class="n">4</span></div>
+      <div>
+        <div class="sec-eyebrow">The core tension</div>
+        <h2>How the Two Ledgers Look While a Plan Is Active</h2>
+        <div class="sub">eDerm posting rules, and the balance mismatch that drives the open questions below.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div style="font-size:13.5px;color:var(--ink-2);line-height:1.75;margin-bottom:22px;">
+        Every paid amount posts to eDerm <b>under the oldest unpaid charge</b> (the same allocation eDerm's own Pay&nbsp;Now / PayMyDerm uses), with a description identifying it as a PayMyDoc payment. But when a payment plan is created, only the first installment has actually been paid, and the two systems now describe the same patient differently:
+      </div>
+      <div class="ledger-grid">
+        <div class="ledger pmd">
+          <i class="fa-solid fa-mobile-screen-button wm" style="color:var(--ok);"></i>
+          <h4><span class="hic"><i class="fa-solid fa-mobile-screen-button"></i></span> PayMyDoc shows…</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle-check pos"></i><span>Balance of <b>$0</b>. The plan absorbs the full amount owed.</span></li>
+            <li><i class="fa-solid fa-circle-check pos"></i><span>An active payment plan with upcoming installments.</span></li>
+            <li><i class="fa-solid fa-circle-check pos"></i><span>New charges from future appointments appear as fresh balance.</span></li>
+          </ul>
+        </div>
+        <div class="ledger edm">
+          <i class="fa-solid fa-hospital wm" style="color:var(--edm);"></i>
+          <h4><span class="hic"><i class="fa-solid fa-hospital"></i></span> eDerm shows…</h4>
+          <ul>
+            <li><i class="fa-solid fa-circle-check pos"></i><span>Only the first installment's amount as paid.</span></li>
+            <li><i class="fa-solid fa-triangle-exclamation warn"></i><span>The remaining plan balance as <b>unpaid</b>.</span></li>
+            <li><i class="fa-solid fa-triangle-exclamation warn"></i><span>No indication that a PMD payment plan covers it.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="risk-band">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+          <b>The exposure: double collection</b>
+          <p>Because eDerm still shows the remainder as unpaid, that same balance can be collected again (directly in eDerm, through PayMyDerm, or at the front desk) while the PMD plan keeps auto-charging the patient on schedule. Nothing currently connects the two.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 5. OPEN QUESTIONS ══════════════════ -->
+  <section class="section" id="questions">
+    <div class="sec-head">
+      <div class="sec-medal q"><i class="fa-solid fa-circle-question"></i></div>
+      <div>
+        <div class="sec-eyebrow amber">Decision needed</div>
+        <h2>Open Questions</h2>
+        <div class="sub">Raised by the development team; blocking the payment-plan / eDerm reconciliation design.</div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-scenario">
+        <i class="fa-solid fa-quote-left"></i>
+        <span><b>The scenario:</b> a patient has an active payment plan in PayMyDoc, so eDerm still shows the plan's remaining balance as unpaid. That balance can be paid from eDerm directly, from PayMyDerm, or at the front desk. <b>What should happen to the PayMyDoc payment plan when that occurs?</b></span>
+      </div>
+      <div class="opt-grid">
+        <div class="opt opt-1">
+          <div class="opt-head">
+            <span class="oic"><i class="fa-solid fa-tag"></i></span>
+            <div>
+              <span class="opt-tag">Option 1</span>
+              <h4>Clear the balance on eDerm and flag it</h4>
+            </div>
+          </div>
+          <p>Mark the plan-covered balance as settled (or otherwise not collectible) on the eDerm side, with an identifier showing it will be covered by the PayMyDoc payment plan.</p>
+          <ul>
+            <li class="li-plus"><span class="li-ic"><i class="fa-solid fa-plus"></i></span><span>Removes the double-collection risk at the source; staff can't accidentally collect it again</span></li>
+            <li class="li-plus"><span class="li-ic"><i class="fa-solid fa-plus"></i></span><span>The plan runs its course undisturbed</span></li>
+            <li class="li-minus"><span class="li-ic"><i class="fa-solid fa-minus"></i></span><span>eDerm's ledger no longer reflects true unpaid A/R until installments post</span></li>
+            <li class="li-info"><span class="li-ic"><i class="fa-solid fa-wrench"></i></span><span>Requires eDerm-side changes: a "covered by PMD plan" state and identifier</span></li>
+          </ul>
+        </div>
+        <div class="opt opt-2">
+          <div class="opt-head">
+            <span class="oic"><i class="fa-solid fa-plug-circle-bolt"></i></span>
+            <div>
+              <span class="opt-tag">Option 2</span>
+              <h4>Cancel the PMD plan when eDerm collects</h4>
+            </div>
+          </div>
+          <p>Leave the eDerm balance open, and if it is paid from the eDerm side, automatically cancel the PayMyDoc payment plan so the patient isn't charged again.</p>
+          <ul>
+            <li class="li-plus"><span class="li-ic"><i class="fa-solid fa-plus"></i></span><span>eDerm's ledger stays accurate and existing front-desk workflows are unchanged</span></li>
+            <li class="li-plus"><span class="li-ic"><i class="fa-solid fa-plus"></i></span><span>Patient is never double-charged after the eDerm-side payment lands</span></li>
+            <li class="li-minus"><span class="li-ic"><i class="fa-solid fa-minus"></i></span><span>Balance remains visibly collectible in the meantime, so partial overlap is possible</span></li>
+            <li class="li-info"><span class="li-ic"><i class="fa-solid fa-wrench"></i></span><span>Requires a webhook: eDerm must notify PMD whenever such a balance is paid</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 6. OBSERVATIONS ══════════════════ -->
+  <section class="section">
+    <div class="sec-head">
+      <div class="sec-medal obs"><i class="fa-solid fa-magnifying-glass"></i></div>
+      <div>
+        <div class="sec-eyebrow slate">Worth confirming</div>
+        <h2>Additional Observations</h2>
+        <div class="sub">Not raised by the developer; points noticed while assembling this summary, worth confirming during review.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <ul class="obs">
+        <li><span class="oic"><i class="fa-solid fa-bell-slash"></i></span><span><b>Failed one-time payments leave no trace for the patient.</b> The error is shown only at the moment of payment: no email, no persistent notice. Plan installment failures do email the patient; consider whether one-time failures should too.</span></li>
+        <li><span class="oic"><i class="fa-solid fa-eye-slash"></i></span><span><b>A $0 PMD balance during an active plan may confuse patients.</b> The patient still owes the remaining installments, but the headline balance reads zero. Confirm the plan card/UI makes the outstanding plan amount unmistakable.</span></li>
+        <li><span class="oic"><i class="fa-solid fa-rotate-left"></i></span><span><b>Partial overlap is possible under either option.</b> If an installment charges the same day a front-desk payment is taken, a refund path will be needed. Worth defining who owns that refund (PMD via NMI, or the practice via eDerm).</span></li>
+        <li><span class="oic"><i class="fa-solid fa-calendar-day"></i></span><span><b>Reminder timing wording.</b> The spec says reminders go out "7 days before each later appointment"; assumed here to mean each <i>installment due date</i>. Worth confirming with the developer.</span></li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo"><i class="fa-solid fa-user-doctor" style="color:var(--primary); margin-right:6px;"></i> Pay My Doc · Payment Workflows</div>
+</footer>
+
+</body>
+</html>
