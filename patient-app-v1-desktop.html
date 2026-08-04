@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PayMyDoc - V1 Desktop</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -810,6 +811,27 @@ input { font-family: inherit; }
 }
 .my-plan-history-link:hover { color: var(--ink); background: var(--canvas); }
 .my-plan-history-link i { font-size: 12px; }
+
+/* FAILED PLAN STATE */
+.my-plan-card.failed { border: 1.5px solid #FCA5A5; }
+.plan-failed-banner {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--r-md);
+  padding: 12px 14px; margin-bottom: 14px;
+  font-size: 12.5px; color: #7F1D1D; line-height: 1.55;
+}
+.plan-failed-banner i { color: #DC2626; margin-top: 2px; flex-shrink: 0; }
+.plan-failed-banner b { color: #B91C1C; }
+.plan-failed-banner.resolved { background: #F0FDF4; border-color: #BBF7D0; color: #14532D; }
+.plan-failed-banner.resolved i { color: var(--green); }
+.plan-failed-banner.resolved b { color: var(--green-dark); }
+.failed-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #FEE2E2; border: 1px solid #FECACA; color: #B91C1C;
+  font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 20px; margin-left: 8px; vertical-align: middle;
+}
+.failed-tag i { font-size: 9px; }
 .my-plan-actions { align-items: center; }
 
 /* PAYMENT HISTORY MODAL */
@@ -1268,8 +1290,8 @@ input { font-family: inherit; }
     <a class="home-plans-banner" onclick="go('my-plans')">
       <div class="home-plans-banner-icon"><i class="fa-solid fa-clipboard-list"></i></div>
       <div class="home-plans-banner-text">
-        <div class="home-plans-banner-title">1 active payment plan</div>
-        <div class="home-plans-banner-sub">$82.67/mo &middot; 33% complete &middot; next charge Jun 1</div>
+        <div class="home-plans-banner-title">2 active payment plans <span class="failed-tag"><i class="fa-solid fa-triangle-exclamation"></i> Payment failed</span></div>
+        <div class="home-plans-banner-sub">6-Month Plan on track &middot; 12-Month Plan: last installment failed &middot; update payment method</div>
       </div>
       <div class="home-plans-banner-arrow">&#8250;</div>
     </a>
@@ -1330,7 +1352,7 @@ input { font-family: inherit; }
       <!-- Right: payment methods + pay -->
       <div class="pay-panel">
         <div class="pay-panel-label">Payment Method</div>
-        <div class="method-card selected" onclick="selectMethod(this)">
+        <div class="method-card selected" data-method="visa" onclick="selectMethod(this)">
           <div class="method-icon visa">VISA</div>
           <div class="method-info">
             <div class="method-name">Visa ending in 4242</div>
@@ -1338,7 +1360,7 @@ input { font-family: inherit; }
           </div>
           <div class="method-radio"><div class="method-radio-dot"></div></div>
         </div>
-        <div class="method-card" onclick="selectMethod(this)">
+        <div class="method-card" data-method="apple" onclick="selectMethod(this)">
           <div class="method-icon apple"><i class="fa-brands fa-apple"></i></div>
           <div class="method-info">
             <div class="method-name">Apple Pay</div>
@@ -1346,7 +1368,7 @@ input { font-family: inherit; }
           </div>
           <div class="method-radio"><div class="method-radio-dot"></div></div>
         </div>
-        <div class="method-card" onclick="selectMethod(this)">
+        <div class="method-card" data-method="gpay" onclick="selectMethod(this)">
           <div class="method-icon gpay">G Pay</div>
           <div class="method-info">
             <div class="method-name">Google Pay</div>
@@ -1395,7 +1417,7 @@ input { font-family: inherit; }
       <!-- Right: payment methods + pay -->
       <div class="pay-panel">
         <div class="pay-panel-label">Payment Method</div>
-        <div class="method-card selected" onclick="selectMethod(this)">
+        <div class="method-card selected" data-method="visa" onclick="selectMethod(this)">
           <div class="method-icon visa">VISA</div>
           <div class="method-info">
             <div class="method-name">Visa ending in 4242</div>
@@ -1403,7 +1425,7 @@ input { font-family: inherit; }
           </div>
           <div class="method-radio"><div class="method-radio-dot"></div></div>
         </div>
-        <div class="method-card" onclick="selectMethod(this)">
+        <div class="method-card" data-method="apple" onclick="selectMethod(this)">
           <div class="method-icon apple"><i class="fa-brands fa-apple"></i></div>
           <div class="method-info">
             <div class="method-name">Apple Pay</div>
@@ -1411,7 +1433,7 @@ input { font-family: inherit; }
           </div>
           <div class="method-radio"><div class="method-radio-dot"></div></div>
         </div>
-        <div class="method-card" onclick="selectMethod(this)">
+        <div class="method-card" data-method="gpay" onclick="selectMethod(this)">
           <div class="method-icon gpay">G Pay</div>
           <div class="method-info">
             <div class="method-name">Google Pay</div>
@@ -1484,13 +1506,13 @@ input { font-family: inherit; }
 
     <div class="plan-charge-note">
       <i class="fa-solid fa-circle-check" style="color:var(--green); margin-right:6px;"></i>
-      Your Visa &middot;&middot;&middot;&middot;4242 will be charged automatically on the 1st of each month.
+      <span id="plan-note-method">Your Visa &middot;&middot;&middot;&middot;4242</span> will be charged automatically on the 1st of each month.
     </div>
 
     <div class="plans-bottom-grid">
       <div class="pay-panel">
         <div class="pay-panel-label">Payment Method</div>
-        <div class="method-card selected" onclick="selectMethod(this)">
+        <div class="method-card selected" data-method="visa" onclick="selectMethod(this)">
           <div class="method-icon visa">VISA</div>
           <div class="method-info">
             <div class="method-name">Visa ending in 4242</div>
@@ -1498,7 +1520,7 @@ input { font-family: inherit; }
           </div>
           <div class="method-radio"><div class="method-radio-dot"></div></div>
         </div>
-        <div class="method-card" onclick="selectMethod(this)">
+        <div class="method-card" data-method="apple" onclick="selectMethod(this)">
           <div class="method-icon apple"><i class="fa-brands fa-apple"></i></div>
           <div class="method-info">
             <div class="method-name">Apple Pay</div>
@@ -1506,7 +1528,7 @@ input { font-family: inherit; }
           </div>
           <div class="method-radio"><div class="method-radio-dot"></div></div>
         </div>
-        <div class="method-card" onclick="selectMethod(this)">
+        <div class="method-card" data-method="gpay" onclick="selectMethod(this)">
           <div class="method-icon gpay">G Pay</div>
           <div class="method-info">
             <div class="method-name">Google Pay</div>
@@ -1594,7 +1616,7 @@ input { font-family: inherit; }
         <div class="my-plan-header">
           <div>
             <div class="my-plan-title">6-Month Plan</div>
-            <div class="my-plan-sub">Started Apr 16, 2026 &middot; Visa &middot;&middot;&middot;&middot;4242</div>
+            <div class="my-plan-sub">Started Apr 16, 2026 &middot; <span id="plan-method-display">Visa &middot;&middot;&middot;&middot;4242</span></div>
           </div>
           <div class="my-plan-monthly">$82.67<span>/mo</span></div>
         </div>
@@ -1620,10 +1642,47 @@ input { font-family: inherit; }
         </div>
 
         <div class="my-plan-actions">
-          <button class="btn btn-primary" onclick="payRemainingInFull('6-Month Plan', 330.66)">Pay $330.66 in full &amp; end plan</button>
+          <button class="btn btn-primary" onclick="showPlanMethod('plan-method-display', '6-Month Plan')"><i class="fa-regular fa-credit-card" style="margin-right:8px;"></i>Update payment method</button>
           <button class="my-plan-history-link" onclick="showPaymentHistory('6-month')">
             <i class="fa-regular fa-clock"></i> View payment history
           </button>
+        </div>
+      </div>
+      <div class="my-plan-card active failed">
+        <div class="plan-failed-banner" id="plan2-failed-banner">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span><b>Payment failed.</b> Your May 15 installment of $41.33 could not be processed with Visa &middot;&middot;&middot;&middot;4242. Update your payment method to keep your plan active &mdash; we&rsquo;ll retry automatically.</span>
+        </div>
+        <div class="my-plan-header">
+          <div>
+            <div class="my-plan-title">12-Month Plan</div>
+            <div class="my-plan-sub">Started Feb 15, 2026 &middot; <span id="plan-method-display-2">Visa &middot;&middot;&middot;&middot;4242</span></div>
+          </div>
+          <div class="my-plan-monthly">$41.33<span>/mo</span></div>
+        </div>
+
+        <div class="my-plan-progress-bar">
+          <div class="my-plan-progress-fill" style="width:25%; background:#DC2626;"></div>
+        </div>
+        <div class="my-plan-progress-text" style="color:#B91C1C;">3 of 12 payments &middot; last installment failed</div>
+
+        <div class="my-plan-stats-row">
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Paid</div>
+            <div class="my-plan-stat-value">$123.99</div>
+          </div>
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Remaining</div>
+            <div class="my-plan-stat-value">$372.01</div>
+          </div>
+          <div class="my-plan-stat">
+            <div class="my-plan-stat-label">Next retry</div>
+            <div class="my-plan-stat-value" style="color:#B91C1C;">Tomorrow</div>
+          </div>
+        </div>
+
+        <div class="my-plan-actions">
+          <button class="btn btn-primary" onclick="showPlanMethod('plan-method-display-2', '12-Month Plan')"><i class="fa-regular fa-credit-card" style="margin-right:8px;"></i>Update payment method</button>
         </div>
       </div>
     </div>
@@ -1685,7 +1744,7 @@ input { font-family: inherit; }
         </div>
         <div class="confirm-receipt-row">
           <span class="confirm-receipt-label">Method</span>
-          <span class="confirm-receipt-value">Visa &middot;&middot;&middot;&middot;4242</span>
+          <span class="confirm-receipt-value" id="confirm-method-display">Visa &middot;&middot;&middot;&middot;4242</span>
         </div>
         <div class="confirm-receipt-row">
           <span class="confirm-receipt-label">Reference</span>
@@ -1713,6 +1772,97 @@ input { font-family: inherit; }
       <button class="ph-close" onclick="closePaymentHistory()">&#10005;</button>
     </div>
     <div class="ph-body" id="ph-body"></div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────── PLAN PAYMENT METHOD MODAL ─────────────────────────────────────── -->
+<div class="ph-overlay" id="plan-method-overlay" onclick="if (event.target === this) closePlanMethod()">
+  <div class="ph-sheet">
+    <div class="ph-hdr">
+      <div>
+        <div class="ph-title">Plan Payment Method</div>
+        <div class="ph-sub" id="plan-method-sub">Upcoming installments of your 6-Month Plan will be charged to this method</div>
+      </div>
+      <button class="ph-close" onclick="closePlanMethod()">&times;</button>
+    </div>
+    <div style="padding:18px 28px 26px; overflow-y:auto;">
+      <div class="section-label">Payment Method</div>
+      <div class="method-card selected" data-method="visa" onclick="selectMethod(this)">
+        <div class="method-icon visa">VISA</div>
+        <div class="method-info">
+          <div class="method-name">Visa ending in 4242</div>
+          <div class="method-detail">Expires 08/27</div>
+        </div>
+        <div class="method-radio"><div class="method-radio-dot"></div></div>
+      </div>
+      <div class="method-card" data-method="apple" onclick="selectMethod(this)">
+        <div class="method-icon apple"><i class="fa-brands fa-apple"></i></div>
+        <div class="method-info">
+          <div class="method-name">Apple Pay</div>
+          <div class="method-detail">Wallet</div>
+        </div>
+        <div class="method-radio"><div class="method-radio-dot"></div></div>
+      </div>
+      <div class="method-card" data-method="gpay" onclick="selectMethod(this)">
+        <div class="method-icon gpay">G Pay</div>
+        <div class="method-info">
+          <div class="method-name">Google Pay</div>
+          <div class="method-detail">Wallet</div>
+        </div>
+        <div class="method-radio"><div class="method-radio-dot"></div></div>
+      </div>
+      <button class="btn btn-primary" id="plan-method-btn" onclick="savePlanMethod()" style="width:100%;max-width:100%;margin-top:16px;">Save Payment Method</button>
+      <div class="pay-security">&#128274; Next charge: Jun 1 &middot; $82.67</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────────── PAYMENT DECLINED MODAL ─────────────────────────────────────── -->
+<div class="ph-overlay" id="declined-overlay" onclick="if (event.target === this) closeDeclined()">
+  <div class="ph-sheet">
+    <div class="ph-hdr">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:42px;height:42px;border-radius:50%;background:#FEE2E2;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="fa-solid fa-triangle-exclamation" style="color:#DC2626;font-size:17px;"></i>
+        </div>
+        <div>
+          <div class="ph-title">Payment Declined</div>
+          <div class="ph-sub" id="declined-sub">Your card was declined. Choose another payment method, or try again.</div>
+        </div>
+      </div>
+      <button class="ph-close" onclick="closeDeclined()">&times;</button>
+    </div>
+    <div style="padding:18px 28px 26px; overflow-y:auto;">
+      <div class="section-label">Payment Method</div>
+      <div class="method-card selected" data-method="visa" onclick="selectMethod(this)">
+        <div class="method-icon visa">VISA</div>
+        <div class="method-info">
+          <div class="method-name">Visa ending in 4242</div>
+          <div class="method-detail">Expires 08/27</div>
+        </div>
+        <div class="method-radio"><div class="method-radio-dot"></div></div>
+      </div>
+      <div class="method-card" data-method="apple" onclick="selectMethod(this)">
+        <div class="method-icon apple"><i class="fa-brands fa-apple"></i></div>
+        <div class="method-info">
+          <div class="method-name">Apple Pay</div>
+          <div class="method-detail">Wallet</div>
+        </div>
+        <div class="method-radio"><div class="method-radio-dot"></div></div>
+      </div>
+      <div class="method-card" data-method="gpay" onclick="selectMethod(this)">
+        <div class="method-icon gpay">G Pay</div>
+        <div class="method-info">
+          <div class="method-name">Google Pay</div>
+          <div class="method-detail">Wallet</div>
+        </div>
+        <div class="method-radio"><div class="method-radio-dot"></div></div>
+      </div>
+      <button class="btn btn-primary" id="declined-retry-btn" onclick="retryPayment()" style="width:100%;max-width:100%;margin-top:16px;">Try Again</button>
+      <div class="pay-security">&#128274; No charge was made to your card</div>
+    </div>
   </div>
 </div>
 
@@ -1906,9 +2056,93 @@ function selectFeedbackEmoji(btn) {
 }
 function submitFeedback() { closeFeedback(); }
 
+const PAY_METHODS = {
+  visa:  { label: 'Visa ····4242', note: 'Your Visa ····4242' },
+  apple: { label: 'Apple Pay',     note: 'Your Apple Pay' },
+  gpay:  { label: 'Google Pay',    note: 'Your Google Pay' }
+};
+let selectedMethodKey = 'visa';
+
+function syncMethods() {
+  document.querySelectorAll('.method-card[data-method]').forEach(c =>
+    c.classList.toggle('selected', c.dataset.method === selectedMethodKey));
+  const noteEl = document.getElementById('plan-note-method');
+  if (noteEl) noteEl.textContent = PAY_METHODS[selectedMethodKey].note;
+}
+
 function selectMethod(el) {
-  el.closest('.pay-panel, .screen').querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
+  selectedMethodKey = el.dataset.method || 'visa';
+  syncMethods();
+}
+
+function setConfirmMethod() {
+  const el = document.getElementById('confirm-method-display');
+  if (el) el.textContent = PAY_METHODS[selectedMethodKey].label;
+}
+
+// Simulated decline: the first payment attempt in each session is declined,
+// so the change-payment-method recovery flow can be demonstrated. Retries succeed.
+let declineNext = true;
+let pendingAmount = '';
+
+function withProcessing(btnId, fn) {
+  const btn = document.getElementById(btnId);
+  if (!btn) { fn(); return; }
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+  setTimeout(() => { btn.disabled = false; btn.textContent = orig; fn(); }, 900);
+}
+
+function attemptPay(amountText) {
+  if (declineNext) {
+    declineNext = false;
+    pendingAmount = amountText;
+    document.getElementById('declined-sub').textContent =
+      'Your ' + PAY_METHODS[selectedMethodKey].label + ' was declined by your bank. Choose another payment method, or try the same one again.';
+    document.getElementById('declined-retry-btn').textContent = 'Try Again — Pay ' + amountText;
+    syncMethods();
+    document.getElementById('declined-overlay').classList.add('visible');
+    return;
+  }
+  document.getElementById('confirm-amount-display').textContent = amountText;
+  setConfirmMethod();
+  go('confirmation');
+}
+
+function closeDeclined() {
+  document.getElementById('declined-overlay').classList.remove('visible');
+}
+
+function retryPayment() {
+  withProcessing('declined-retry-btn', () => {
+    closeDeclined();
+    attemptPay(pendingAmount);
+  });
+}
+
+let planMethodTarget = 'plan-method-display';
+function showPlanMethod(targetId, planName) {
+  planMethodTarget = targetId || 'plan-method-display';
+  const sub = document.getElementById('plan-method-sub');
+  if (sub && planName) sub.textContent = 'Upcoming installments of your ' + planName + ' will be charged to this method';
+  syncMethods();
+  document.getElementById('plan-method-overlay').classList.add('visible');
+}
+function closePlanMethod() {
+  document.getElementById('plan-method-overlay').classList.remove('visible');
+}
+function savePlanMethod() {
+  const el = document.getElementById(planMethodTarget);
+  if (el) el.textContent = PAY_METHODS[selectedMethodKey].label;
+  if (planMethodTarget === 'plan-method-display-2') {
+    const banner = document.getElementById('plan2-failed-banner');
+    if (banner) {
+      banner.classList.add('resolved');
+      banner.innerHTML = '<i class="fa-solid fa-circle-check"></i><span><b>Payment method updated.</b> We\'ll retry your $41.33 installment with ' + PAY_METHODS[selectedMethodKey].label + ' on the next attempt.</span>';
+    }
+  }
+  closePlanMethod();
 }
 
 function updatePartialSlider(val) {
@@ -1926,13 +2160,11 @@ function updatePartialSlider(val) {
 
 function payFull() {
   const amt = document.getElementById('pay-display').textContent;
-  document.getElementById('confirm-amount-display').textContent = amt;
-  go('confirmation');
+  withProcessing('pay-btn', () => attemptPay(amt));
 }
 function payPartial() {
   const amt = document.getElementById('partial-slider-display').textContent;
-  document.getElementById('confirm-amount-display').textContent = amt;
-  go('confirmation');
+  withProcessing('partial-pay-btn', () => attemptPay(amt));
 }
 function payPlan() {
   const plans = { 3: '$165.33', 6: '$82.67', 12: '$41.33' };
@@ -1949,8 +2181,7 @@ function payPlan() {
       if (match) amt = match[0];
     }
   }
-  document.getElementById('confirm-amount-display').textContent = amt;
-  go('confirmation');
+  withProcessing('plan-btn', () => attemptPay(amt));
 }
 
 function selectPlan(months) {
@@ -1997,13 +2228,6 @@ function handleBalanceOverlayClick(e) {
 
 function downloadReceipt() {
   alert('PDF download available in production.');
-}
-
-function payRemainingInFull(planName, amount) {
-  if (confirm('Pay remaining $' + amount.toFixed(2) + ' on ' + planName + '? This will end your plan and close the balance.')) {
-    document.getElementById('confirm-amount-display').textContent = '$' + amount.toFixed(2);
-    go('confirmation');
-  }
 }
 
 const planHistories = {
