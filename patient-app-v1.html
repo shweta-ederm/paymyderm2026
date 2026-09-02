@@ -724,6 +724,25 @@ body {
 .assist-card-desc  { font-size: 13px; color: var(--ink-3); line-height: 1.4; }
 .assist-card-arrow { font-size: 20px; color: var(--ink-4); font-weight: 300; }
 
+/* HELP INFO PAGES */
+.info-card {
+  margin: 0 20px 12px; padding: 18px;
+  background: var(--surface); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xs);
+}
+.info-card-title { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+.info-card-title i { color: var(--green-dark); font-size: 14px; }
+.info-card-text { font-size: 13px; color: var(--ink-3); line-height: 1.65; }
+.info-list { list-style: none; }
+.info-list li { display: flex; gap: 10px; font-size: 13px; color: var(--ink-2); line-height: 1.6; padding: 5px 0; }
+.info-list li i { color: var(--green); margin-top: 3px; font-size: 12px; flex-shrink: 0; }
+.info-contact-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--ink-6); }
+.info-contact-row:last-child { border-bottom: none; padding-bottom: 2px; }
+.info-contact-row:first-child { padding-top: 2px; }
+.info-contact-icon { width: 38px; height: 38px; border-radius: 11px; background: var(--green-light); color: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.info-contact-label { font-size: 11px; color: var(--ink-4); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+.info-contact-value { font-size: 14px; color: var(--ink); font-weight: 650; margin-top: 1px; }
+
 /* CONFIRMATION */
 .conf-layer {
   position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 50;
@@ -1640,7 +1659,7 @@ body {
           <div class="assist-sub">Everyone deserves accessible care. Explore options that may reduce your costs.</div>
         </div>
 
-        <div class="assist-card">
+        <div class="assist-card" onclick="go('help-plans')">
           <div class="assist-card-icon" style="background:var(--green-light);"><i class="fa-solid fa-hand-holding-dollar" style="color:var(--green-dark);"></i></div>
           <div class="assist-card-info">
             <div class="assist-card-title">Payment Plans</div>
@@ -1649,7 +1668,7 @@ body {
           <div class="assist-card-arrow">&#8250;</div>
         </div>
 
-        <div class="assist-card">
+        <div class="assist-card" onclick="go('help-billing')">
           <div class="assist-card-icon" style="background:var(--teal-light);"><i class="fa-solid fa-building-columns" style="color:var(--teal-dark);"></i></div>
           <div class="assist-card-info">
             <div class="assist-card-title">Talk to Billing Team</div>
@@ -1658,13 +1677,182 @@ body {
           <div class="assist-card-arrow">&#8250;</div>
         </div>
 
-        <div class="assist-card">
+        <div class="assist-card" onclick="go('help-support')">
           <div class="assist-card-icon" style="background:#F3F4F6;"><i class="fa-solid fa-phone" style="color:var(--ink-3);"></i></div>
           <div class="assist-card-info">
             <div class="assist-card-title">Talk to Pay My Doc Support</div>
             <div class="assist-card-desc">Connect directly with our billing specialists for personalized help.</div>
           </div>
           <div class="assist-card-arrow">&#8250;</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCREEN 8c: HELP - PAYMENT PLANS INFO -->
+  <div class="screen" id="help-plans">
+    <div class="status-spacer"></div>
+    <div class="topbar">
+      <button class="topbar-back" onclick="go('assist')">&#8592;</button>
+      <div class="topbar-title">Payment Plans</div>
+      <div></div>
+    </div>
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
+      <div class="stagger">
+
+        <div class="assist-hero">
+          <div class="assist-icon"><i class="fa-solid fa-calendar-days" style="color:var(--green-dark);"></i></div>
+          <div class="assist-title">How payment plans work</div>
+          <div class="assist-sub">Break your balance into smaller monthly payments that fit your budget. Always 0% interest, never a fee.</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-circle-check"></i> What you get</div>
+          <ul class="info-list">
+            <li><i class="fa-solid fa-check"></i><span>Split your balance into 3, 6, or 12 monthly payments, or choose a custom monthly amount.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Always 0% interest with no setup or hidden fees.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>The first installment is charged when you start the plan; the rest are charged on the 1st of each month.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>A reminder email arrives 7 days before every installment.</span></li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-rotate"></i> Automatic payments</div>
+          <div class="info-card-text">Installments are charged automatically to your saved payment method. If a charge doesn't go through, we'll email you and retry over the next two days &mdash; and you can update your payment method anytime from My Payment Plans.</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-hand-holding-dollar"></i> Pay off early, anytime</div>
+          <div class="info-card-text">You can pay your remaining plan balance at any time with no penalty. The plan simply closes once the balance reaches zero.</div>
+        </div>
+
+        <div style="height:8px;"></div>
+        <button class="btn btn-primary" onclick="go('plans')" style="margin:0 20px;width:calc(100% - 40px);">View plan options</button>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCREEN 8d: HELP - BILLING TEAM INFO -->
+  <div class="screen" id="help-billing">
+    <div class="status-spacer"></div>
+    <div class="topbar">
+      <button class="topbar-back" onclick="go('assist')">&#8592;</button>
+      <div class="topbar-title">Billing Team</div>
+      <div></div>
+    </div>
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
+      <div class="stagger">
+
+        <div class="assist-hero">
+          <div class="assist-icon"><i class="fa-solid fa-building-columns" style="color:var(--teal-dark);"></i></div>
+          <div class="assist-title">Talk to the billing team</div>
+          <div class="assist-sub">Questions about charges, insurance, or your statement? Integrated Dermatology's billing team is happy to help.</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-address-book"></i> Contact</div>
+          <div class="info-contact-row">
+            <div class="info-contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <div class="info-contact-label">Phone</div>
+              <div class="info-contact-value">(555) 210-4400</div>
+            </div>
+          </div>
+          <div class="info-contact-row">
+            <div class="info-contact-icon"><i class="fa-regular fa-envelope"></i></div>
+            <div>
+              <div class="info-contact-label">Email</div>
+              <div class="info-contact-value">billing@integratedderm.com</div>
+            </div>
+          </div>
+          <div class="info-contact-row">
+            <div class="info-contact-icon"><i class="fa-regular fa-clock"></i></div>
+            <div>
+              <div class="info-contact-label">Office hours</div>
+              <div class="info-contact-value">Mon&ndash;Fri &middot; 8:00 AM&ndash;5:00 PM ET</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-list-check"></i> They can help with</div>
+          <ul class="info-list">
+            <li><i class="fa-solid fa-check"></i><span>Understanding itemized charges on your statement.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Insurance questions and explanation of benefits (EOB).</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Financial hardship and assistance options.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Reviewing or correcting a billing error.</span></li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-clipboard-list"></i> Good to have ready</div>
+          <div class="info-card-text">Your account number (top of your statement), the date of service in question, and your insurance card if your question involves coverage.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCREEN 8e: HELP - PMD SUPPORT INFO -->
+  <div class="screen" id="help-support">
+    <div class="status-spacer"></div>
+    <div class="topbar">
+      <button class="topbar-back" onclick="go('assist')">&#8592;</button>
+      <div class="topbar-title">Pay My Doc Support</div>
+      <div></div>
+    </div>
+    <div class="scroll" style="background:var(--canvas); padding-bottom:90px;">
+      <div class="stagger">
+
+        <div class="assist-hero">
+          <div class="assist-icon"><i class="fa-solid fa-headset" style="color:var(--green-dark);"></i></div>
+          <div class="assist-title">Pay My Doc support</div>
+          <div class="assist-sub">Help with payments, receipts, payment plans, and using the app.</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-address-book"></i> Contact</div>
+          <div class="info-contact-row">
+            <div class="info-contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <div class="info-contact-label">Phone</div>
+              <div class="info-contact-value">(555) 970-2200</div>
+            </div>
+          </div>
+          <div class="info-contact-row">
+            <div class="info-contact-icon"><i class="fa-regular fa-envelope"></i></div>
+            <div>
+              <div class="info-contact-label">Email</div>
+              <div class="info-contact-value">support@paymydoc.com</div>
+            </div>
+          </div>
+          <div class="info-contact-row">
+            <div class="info-contact-icon"><i class="fa-regular fa-clock"></i></div>
+            <div>
+              <div class="info-contact-label">Hours</div>
+              <div class="info-contact-value">7 days a week &middot; 8:00 AM&ndash;8:00 PM ET</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-list-check"></i> We can help with</div>
+          <ul class="info-list">
+            <li><i class="fa-solid fa-check"></i><span>Failed or declined payments.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Adding or updating a payment method.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Changing or canceling a payment plan.</span></li>
+            <li><i class="fa-solid fa-check"></i><span>Receipts and payment history.</span></li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title"><i class="fa-solid fa-shield-halved"></i> Your security</div>
+          <div class="info-card-text">Pay My Doc support will never ask for your full card number, CVV, or password. Payment details are handled securely by our PCI-compliant payment partner.</div>
         </div>
 
       </div>
