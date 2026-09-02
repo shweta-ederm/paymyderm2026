@@ -2507,8 +2507,147 @@ function handleBalanceOverlayClick(e) {
   if (e.target === document.getElementById('balance-sheet-overlay')) closeBalanceBreakup();
 }
 
+function buildReceiptHTML(amt, method) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pay My Doc Receipt &middot; PMD-28491</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Roboto', Arial, sans-serif; background: #EEF1F4; color: #111827; }
+  .toolbar {
+    max-width: 760px; margin: 18px auto 0; padding: 12px 18px;
+    background: #111827; color: #fff; border-radius: 10px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-size: 13px;
+  }
+  .toolbar button {
+    background: #5CB85C; color: #fff; border: none; border-radius: 8px;
+    padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .page {
+    max-width: 760px; margin: 14px auto 40px; background: #fff;
+    padding: 46px 54px 38px; border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(17,24,39,.12);
+  }
+  .rc-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+  .rc-brand { display: flex; align-items: center; gap: 13px; }
+  .rc-mark {
+    width: 46px; height: 46px; border-radius: 13px;
+    background: linear-gradient(140deg, #5CB85C, #3E8E47);
+    color: #fff; font-size: 15px; font-weight: 900; letter-spacing: .5px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rc-brand b { font-size: 20px; font-weight: 900; letter-spacing: -.4px; display: block; }
+  .rc-brand span { font-size: 12px; color: #6B7280; }
+  .paid {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: #DCFCE7; border: 1.5px solid #86EFAC; color: #15803D;
+    font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 24px;
+  }
+  .paid::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #16A34A; }
+  .rc-amount { text-align: center; padding: 6px 0 26px; }
+  .rc-amount-label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #9CA3AF; margin-bottom: 6px; }
+  .rc-amount-value { font-size: 44px; font-weight: 900; letter-spacing: -1.5px; }
+  .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 26px; }
+  .meta > div { background: #F8FAFC; border: 1px solid #E5E7EB; border-radius: 10px; padding: 12px 14px; }
+  .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9CA3AF; margin-bottom: 4px; }
+  .val { font-size: 14px; font-weight: 700; }
+  .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 26px; }
+  .party { border: 1px solid #E5E7EB; border-radius: 10px; padding: 14px 16px; }
+  .party .n { font-size: 14.5px; font-weight: 700; margin-bottom: 2px; }
+  .party .d { font-size: 12.5px; color: #6B7280; line-height: 1.55; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  th { text-align: left; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #9CA3AF; padding: 0 0 10px; border-bottom: 2px solid #111827; }
+  th:last-child, td:last-child { text-align: right; }
+  td { padding: 14px 0; border-bottom: 1px solid #E5E7EB; font-size: 13.5px; }
+  td small { display: block; color: #6B7280; font-size: 12px; margin-top: 3px; font-weight: 400; }
+  .total td { border-bottom: none; font-size: 16px; font-weight: 900; padding-top: 16px; }
+  .total td:last-child { color: #1F6B42; }
+  .note {
+    margin: 18px 0 26px; padding: 13px 16px;
+    background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 10px;
+    font-size: 12px; color: #374151; line-height: 1.6;
+  }
+  footer { border-top: 1px solid #E5E7EB; padding-top: 16px; font-size: 11px; color: #9CA3AF; line-height: 1.7; text-align: center; }
+  @media print {
+    body { background: #fff; }
+    .toolbar { display: none; }
+    .page { margin: 0 auto; box-shadow: none; border-radius: 0; padding: 4mm 2mm; max-width: 100%; }
+  }
+  @page { size: A4; margin: 14mm; }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <span>Receipt preview &mdash; choose &ldquo;Save as PDF&rdquo; as the destination in the print dialog.</span>
+    <button onclick="window.print()">Download PDF</button>
+  </div>
+  <div class="page">
+    <div class="rc-head">
+      <div class="rc-brand">
+        <div class="rc-mark">PMD</div>
+        <div><b>Pay My Doc</b><span>Official payment receipt</span></div>
+      </div>
+      <div class="paid">Paid</div>
+    </div>
+
+    <div class="rc-amount">
+      <div class="rc-amount-label">Amount paid</div>
+      <div class="rc-amount-value">${amt}</div>
+    </div>
+
+    <div class="meta">
+      <div><div class="lbl">Receipt no.</div><div class="val">#PMD-28491</div></div>
+      <div><div class="lbl">Payment date</div><div class="val">April 16, 2026</div></div>
+      <div><div class="lbl">Payment method</div><div class="val">${method}</div></div>
+    </div>
+
+    <div class="parties">
+      <div class="party">
+        <div class="lbl">Billed to</div>
+        <div class="n">Angela Martinez</div>
+        <div class="d">Account #ID-284917<br>angela.martinez@email.com</div>
+      </div>
+      <div class="party">
+        <div class="lbl">Provider</div>
+        <div class="n">Integrated Dermatology</div>
+        <div class="d">1240 Wellness Avenue, Suite 210<br>Boston, MA 02116 &middot; (555) 210-4400</div>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>Description</th><th>Amount</th></tr>
+      <tr><td>Patient balance payment<small>Dermatology services &middot; Mar 15 &amp; Apr 3, 2026 &middot; applied to the oldest unpaid charge</small></td><td>${amt}</td></tr>
+      <tr class="total"><td>Total paid</td><td>${amt}</td></tr>
+    </table>
+
+    <div class="note">
+      This payment was processed securely by Pay My Doc and posted to your provider's billing system. Please allow one business day for the payment to appear on your provider statement.
+    </div>
+
+    <footer>
+      Pay My Doc &middot; support@paymydoc.com &middot; (555) 970-2200 &middot; PCI-DSS compliant<br>
+      This receipt was generated electronically and is valid without a signature.
+    </footer>
+  </div>
+</body>
+</html>`;
+}
+
 function downloadReceipt() {
-  alert('PDF download available in production.');
+  const amt = document.getElementById('confirm-amount-display').textContent;
+  const methodEl = document.getElementById('confirm-method-display');
+  const method = methodEl ? methodEl.textContent : 'Visa ····4242';
+  const w = window.open('', '_blank');
+  if (!w) { alert('Please allow pop-ups to download your receipt.'); return; }
+  w.document.write(buildReceiptHTML(amt, method));
+  w.document.close();
+  w.focus();
+  setTimeout(() => { try { w.print(); } catch (e) {} }, 800);
 }
 
 const planHistories = {
